@@ -1,0 +1,15 @@
+{
+  "title": "Add a clippy check action to an Amethyst.rs project",
+  "description": "This article will talk about the workflow needed to add a clippy check on your amethyst.rs project",
+  "url": "clippy-check-action-on-amethyst-rs",
+  "images": {
+    "highResolutionUrl": "https://storage.googleapis.com/wootlab-io-production.appspot.com/panda.jpg",
+    "miniatureUrl": "https://storage.googleapis.com/wootlab-io-production.appspot.com/panda-miniature.jpg",
+    "credits": "Photo by Sid Balachandran on Unsplash"
+  },
+  "tag": "Rust",
+  "date": "2020-10-17",
+  "author": "Jérémy THULLIEZ",
+  "published": true,
+  "next": "auto-clippy-pr-github-action"
+}

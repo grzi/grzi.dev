@@ -1,0 +1,14 @@
+{
+  "title": "A pong in Rust with Amethyst game engine",
+  "description": "I followed the tutorial on amethyst.rs to create a pong type game. Here's what I learned and thought",
+  "url": "pong-in-rust-with-amethyst",
+  "images": {
+    "highResolutionUrl": "https://storage.googleapis.com/wootlab-io-production.appspot.com/elephant.jpg",
+    "miniatureUrl": "https://storage.googleapis.com/wootlab-io-production.appspot.com/elephant_miniature.jpg",
+    "credits": "Photo by AJ Robbie on Unsplash"
+  },
+  "tag": "Game Development",
+  "date": "2020-04-14",
+  "author": "Jérémy THULLIEZ",
+  "published": true
+}

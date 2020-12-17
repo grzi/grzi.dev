@@ -1,0 +1,14 @@
+{
+  "title": "My journey into Github GameOff 2020",
+  "description": "This article will describe the different stages of my participation in Github Game Off 2020, a game jam hosted by Github in November 2020.",
+  "url": "my-journey-into-github-gameoff-2020",
+  "images": {
+    "highResolutionUrl": "https://storage.googleapis.com/wootlab-io-production.appspot.com/starlight-cover-2.jpg",
+    "miniatureUrl": "https://storage.googleapis.com/wootlab-io-production.appspot.com/starlight-cover-mini.png",
+    "credits": "Photo from starlight 1961 by Grzi"
+  },
+  "tag": "Game Development",
+  "date": "2020-12-06",
+  "author": "Jérémy THULLIEZ",
+  "published": true
+}

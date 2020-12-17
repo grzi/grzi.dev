@@ -1,0 +1,15 @@
+{
+  "title": "Automatic clippy (lint) PR on push to main branch with Github action",
+  "description": "This article will talk about the workflow needed to automatically have a PR with clippy suggestions on push to the main branch",
+  "url": "auto-clippy-pr-github-action",
+  "images": {
+    "highResolutionUrl": "https://storage.googleapis.com/wootlab-io-production.appspot.com/panda.jpg",
+    "miniatureUrl": "https://storage.googleapis.com/wootlab-io-production.appspot.com/panda-miniature.jpg",
+    "credits": "Photo by Sid Balachandran on Unsplash"
+  },
+  "tag": "Rust",
+  "date": "2020-10-19",
+  "author": "Jérémy THULLIEZ",
+  "published": true,
+  "previous": "clippy-check-action-on-amethyst-rs"
+}

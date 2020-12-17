@@ -1,0 +1,14 @@
+{
+  "title": "How to run simple docker command 'as a service' ?",
+  "description": "To optimize your local machine CPU and RAM usage or just for fun, this is how I have set up my remote docker to use it 'as a service'",
+  "url": "simple-docker-command-as-a-service",
+  "images": {
+    "highResolutionUrl": "https://storage.googleapis.com/wootlab-io-production.appspot.com/sleeping_dog.jpg",
+    "miniatureUrl": "https://storage.googleapis.com/wootlab-io-production.appspot.com/sleeping_dog_miniature.jpg",
+    "credits": "Photo by freestocks on Unsplash"
+  },
+  "tag": "Docker",
+  "date": "2020-03-10",
+  "author": "Jérémy THULLIEZ",
+  "published": true
+}
