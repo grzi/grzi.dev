@@ -9,7 +9,7 @@ This year, the theme was "MOONSHOT". eg:
 - An extremely ambitious and innovative project
 - The act of launching a spacecraft to the moon
 - A hit or thrown ball that travels a great distance with a high trajectory
-
+ 
 The them was revealed November 1st.
 
 ## The steps

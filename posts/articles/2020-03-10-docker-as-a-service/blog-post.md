@@ -7,7 +7,7 @@ Yeah, I know what you're thinking... But I can explain it all, I promise !
 I'm currently working on a macbook pro 2017 (no touch bar) that have only 8Gb of RAM.
 
 My basic opened work tools are the following :
-
+ 
 - IntelliJ / Visual studio code
 - Postman
 - Firefox
@@ -35,7 +35,7 @@ So, this is what I need to create a simple **docker as a service** :
 I'm currently using a simple VPS that I pay 3,59€ per month. ([Kimsufi](https://www.kimsufi.com/fr/)). This VPS is not dedicated to my docker as a service, I have other things on it.
 
 I set up a simple dns entry in my `etc/hosts` file
-
+  
 ```bash
 XX.XX.XX.XX     dockercloud
 ```
@@ -50,10 +50,10 @@ I simply add this generated key to the vps :
 
 ```bash
 ssh-copy-id root@XX.XX.XX.XX
-```
+``` 
 
 I create an alias in my .bashrc (actually in my .zProfile) :
-
+ 
 ```bash
 dockeraas() {
     echo 'I am running on the cloud ¯\_(ツ)_/¯'

@@ -1,0 +1,38 @@
+name: meta.json or blog-post.md modified
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'posts/**'
+jobs:
+  convert_and_commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-python@v2
+      - name: script
+        run: |
+          pip install markdown2
+
+          git config user.email ${{secrets.MAIL}}
+          git config user.name grzi
+          git remote add upstream_secured https://grzi:${{secrets.GITHUB_TOKEN}}@github.com/grzi/grzi.dev > /dev/null 2>&1
+
+          commit_id=`git log --format="%H" -n 1`
+          modified=`git diff-tree -no-commit-id --name-only -r $commit_id | awk -F "/*[^/]*/*$" '{ print ($1 == "" ? "." : $1); }' | sort --unique | grep 'posts/'`
+          echo $modified
+
+          for i in $modified; do
+            python3 scripts/markdown.py $i/blog-post.md > $i/blog-post.html
+            global_meta_updated=`python3 scripts/global_meta.py posts/global_meta.json $i/meta.json`
+            echo $global_meta_updated>posts/global_meta.json
+            git add $i/blog-post.html
+          done
+
+          git add posts/global_meta.json
+
+          git commit -m "chore: Convert modified blog-post(s) to html and update global_meta.json"
+          echo "pushing to git"
+          git push -u upstream_secured HEAD:main

@@ -9,7 +9,7 @@ Well, I focused on the forms as I said. I made a lot of objects, without any col
 ## The importance of color theory
 
 To understand a little how to choose my colors, I needed to understand a little bit about color theory. The advantage of this is that, it is not only a question of pixel art, but more generally important in all things that require a choice between colors.
-
+ 
 I still have a lot to learn, but a big step is taken when you accept that it is not just a detail but something important to manage before doing things.
 
 ## The project
