@@ -26,7 +26,7 @@ jobs:
 
           for i in $modified; do
             python3 scripts/markdown.py $i/blog-post.md > $i/blog-post.html
-            global_meta_updated=`python3 scripts/global_meta.py posts/global_meta.json $i/meta.json`
+            global_meta_updated=`python3 scripts/global_meta.py posts/global_meta.json $i/meta.json $i`
             echo $global_meta_updated>posts/global_meta.json
             git add $i/blog-post.html
           done

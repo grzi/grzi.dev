@@ -14,6 +14,7 @@ def main():
 
     with open(sys.argv[2], 'r', encoding='utf8') as modified_meta:
         modified_meta_json = json.loads(modified_meta.read())
+        modified_meta_json['path'] = sys.argv[3]
         found = False
         for i in global_meta_json:
             if i['url'] == modified_meta_json['url']:
