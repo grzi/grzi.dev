@@ -403,6 +403,7 @@ export default {
       line-height: 3.75rem;
       font-weight: 700;
       border-bottom: 1px solid gray;
+      margin-bottom:20px;
     }
 
     h2{
@@ -419,6 +420,17 @@ export default {
       margin-bottom:20px;
     }
 
+    blockquote {
+      background-color: #f5f5f5;
+      border-left: 5px solid #79e0e6;
+      padding: 1rem 1rem;
+      margin-bottom: 20px;
+    }
+
+    blockquote p {
+      margin: 0;
+    }
+
     p {
       font-size: 1rem;
       line-height: 1.5rem;
@@ -427,10 +439,18 @@ export default {
       text-align-last: left;
     }
 
-    ol {
+    ol, ul {
       margin-left: 50px;
       margin-bottom: 30px;
       counter-reset: item;
+    }
+
+    ul {
+      list-style-type: square;
+    }
+
+    ul li::marker {
+      font-size: 1.0em;
     }
 
     ol li {
