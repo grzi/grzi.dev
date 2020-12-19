@@ -47,7 +47,7 @@ To go a little bit further, a blog post is divided into two files :
 {
   "title": "Wootlab.io architecture - C4 Model",
   "description": "This article document the architecture of wootlab.io and how it is hosted for free and is a hands on C4 model to describe it.",
-  "url": "wootlab-io-architecture-c4-model",
+  "uri": "wootlab-io-architecture-c4-model",
   "images": {
     "highResolutionUrl": "imgUrl",
     "miniatureUrl": "MiniatureUrl",

@@ -7,20 +7,23 @@ import dev.grzi.representations.Tag;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 
 import javax.inject.Inject;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import java.util.Optional;
 import java.util.Set;
 
 @Path("/blog/")
-public class BlogEndpoint {
+public class BlogResource {
 
     @Inject
     private BlogService blogService;
 
     @GET
+    @Path("/posts/")
     public Set<ArticleSummary> findAll(@QueryParam("tag") String tag, @QueryParam("page") Integer page) {
         return blogService.findAll(tag, page);
     }
@@ -28,14 +31,14 @@ public class BlogEndpoint {
     @GET
     @Path("posts/{uri}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Article findByUri(@PathParam("uri") String uri) throws JsonProcessingException {
+    public Optional<Article> findByUri(@NotNull @PathParam("uri") String uri) throws JsonProcessingException {
         return blogService.findByUri(uri);
     }
 
     @GET
     @Path("posts/{uri}/title")
     @Produces(MediaType.TEXT_PLAIN)
-    public String findTitleByUri(@PathParam("uri") String uri) throws JsonProcessingException {
+    public Optional<String> findTitleByUri(@PathParam("uri") String uri) throws JsonProcessingException {
         return blogService.findTitleByUri(uri);
     }
 

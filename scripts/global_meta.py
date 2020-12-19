@@ -17,7 +17,7 @@ def main():
         modified_meta_json['path'] = sys.argv[3]
         found = False
         for i in global_meta_json:
-            if i['url'] == modified_meta_json['url']:
+            if i['uri'] == modified_meta_json['uri']:
                 i = modified_meta_json
                 found = True
                 break

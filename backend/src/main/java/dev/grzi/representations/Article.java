@@ -6,8 +6,6 @@ import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class Article extends ArticleSummary {
-    private String next;
-    private String previous;
     private String content;
 
     public Article() {
@@ -18,30 +16,17 @@ public final class Article extends ArticleSummary {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == this) return true;
-        if (obj == null || obj.getClass() != this.getClass()) return false;
-        var that = (Article) obj;
-        return Objects.equals(this.next, that.next) &&
-                Objects.equals(this.previous, that.previous) &&
-                Objects.equals(this.content, that.content);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Article article = (Article) o;
+        return Objects.equals(content, article.content);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(next, previous, content);
+        return Objects.hash(super.hashCode(), content);
     }
-
-    @Override
-    public String toString() {
-        return "Article[" +
-                "next=" + next + ", " +
-                "previous=" + previous + ", " +
-                "content=" + content + ']';
-    }
-
-};
-
-;
-
+}
 

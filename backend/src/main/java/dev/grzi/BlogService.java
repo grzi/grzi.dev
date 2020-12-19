@@ -9,8 +9,10 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.validation.constraints.NotNull;
+import javax.ws.rs.WebApplicationException;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @ApplicationScoped
@@ -25,25 +27,38 @@ public class BlogService {
     public Set<ArticleSummary> findAll(String tag, Integer page){
         try {
             return Set.of(mapper.readValue(githubClient.findAll(), ArticleSummary[].class));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
+        } catch (JsonProcessingException | WebApplicationException e) {
             return Collections.emptySet();
         }
-
     }
 
-    public Article findByUri(String uri) throws JsonProcessingException {
+    public Optional<Article> findByUri(String uri) {
         try {
-            Article article = mapper.readValue(githubClient.findMetaByUri(uri), Article.class);
-            article.setContent(githubClient.findContentByUri(uri));
-            return article;
-        } catch (JsonProcessingException e) {
-            throw e;
+            return findArticleSummaryFromUri(uri)
+                    .map(articleSummary ->  {
+                        Article article = (Article) articleSummary;
+                        article.setContent(githubClient.findContentByUri(uri));
+                        return Optional.of(article);
+                    }).orElse(Optional.empty());
+        } catch (WebApplicationException e) {
+            return Optional.empty();
         }
     }
 
-    public String findTitleByUri(String uri) throws JsonProcessingException {
-        return mapper.readValue(githubClient.findMetaByUri(uri), ArticleSummary.class).title();
+    public Optional<String> findTitleByUri(String uri) {
+        try {
+            return findArticleSummaryFromUri(uri)
+                .map(articleSummary ->  Optional.of(articleSummary.getTitle()))
+                        .orElse(Optional.empty());
+        } catch (WebApplicationException e) {
+            return Optional.empty();
+        }
+    }
+
+    private Optional<ArticleSummary> findArticleSummaryFromUri(String uri){
+        return findAll(null, null).stream()
+                .filter(article -> uri.equals(article.getUri()))
+                .findFirst();
     }
 
     public Set<Tag> findTags() {
