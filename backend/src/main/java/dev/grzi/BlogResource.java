@@ -1,19 +1,16 @@
 package dev.grzi;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import dev.grzi.representations.Article;
-import dev.grzi.representations.ArticleSummary;
+import dev.grzi.representations.BlogPostSummary;
 import dev.grzi.representations.Tag;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.Optional;
+import javax.ws.rs.core.Response;
 import java.util.Set;
 
 @Path("/blog/")
@@ -24,28 +21,42 @@ public class BlogResource {
 
     @GET
     @Path("/posts/")
-    public Set<ArticleSummary> findAll(@QueryParam("tag") String tag, @QueryParam("page") Integer page) {
+    @PermitAll
+    public Set<BlogPostSummary> findAll(@QueryParam("tag") String tag, @QueryParam("page") Integer page) {
         return blogService.findAll(tag, page);
     }
 
     @GET
     @Path("posts/{uri}")
+    @PermitAll
     @Produces(MediaType.APPLICATION_JSON)
-    public Optional<Article> findByUri(@NotNull @PathParam("uri") String uri) throws JsonProcessingException {
-        return blogService.findByUri(uri);
+    public Response findByUri(@NotNull @PathParam("uri") String uri) {
+        return blogService.findByUri(uri)
+                .map(article -> Response.ok(article))
+                .orElse(Response.status(Response.Status.NOT_FOUND)).build();
     }
 
     @GET
     @Path("posts/{uri}/title")
+    @PermitAll
     @Produces(MediaType.TEXT_PLAIN)
-    public Optional<String> findTitleByUri(@PathParam("uri") String uri) throws JsonProcessingException {
-        return blogService.findTitleByUri(uri);
+    public Response findTitleByUri(@PathParam("uri") String uri) {
+        return blogService.findTitleByUri(uri)
+                .map(title -> Response.ok(title))
+                .orElse(Response.status(Response.Status.NOT_FOUND)).build();
     }
 
     @GET
+    @PermitAll
     @Path("/tags")
     public Set<Tag> findTags(@PathParam String uri) {
         return blogService.findTags();
     }
 
+    @PATCH
+    @Path("/flush-cache")
+    @RolesAllowed("FLUSHER")
+    public void flushCache(){
+        blogService.flushCache();
+    }
 }

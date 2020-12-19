@@ -26,11 +26,11 @@ public class Images {
         this.highResolutionUrl = highResolutionUrl;
     }
 
-    public String getCredit() {
+    public String getCredits() {
         return credits;
     }
 
-    public void setCredit(String credits) {
+    public void setCredits(String credits) {
         this.credits = credits;
     }
 

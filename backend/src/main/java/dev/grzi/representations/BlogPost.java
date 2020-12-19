@@ -5,10 +5,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public final class Article extends ArticleSummary {
+public final class BlogPost extends BlogPostSummary {
     private String content;
 
-    public Article(ArticleSummary summary) {
+    public BlogPost(BlogPostSummary summary) {
         super(summary);
     }
 
@@ -16,12 +16,16 @@ public final class Article extends ArticleSummary {
         this.content = content;
     }
 
+    public String getContent() {
+        return content;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        Article article = (Article) o;
+        BlogPost article = (BlogPost) o;
         return Objects.equals(content, article.content);
     }
 

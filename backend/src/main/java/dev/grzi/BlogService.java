@@ -2,17 +2,18 @@ package dev.grzi;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.grzi.representations.Article;
-import dev.grzi.representations.ArticleSummary;
+import dev.grzi.representations.BlogPost;
+import dev.grzi.representations.BlogPostSummary;
 import dev.grzi.representations.Tag;
+import io.quarkus.cache.CacheInvalidateAll;
+import io.quarkus.cache.CacheResult;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;
-import java.util.Collections;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class BlogService {
@@ -21,22 +22,36 @@ public class BlogService {
     @RestClient
     private GithubClient githubClient;
 
+    private static final long PAGE_SIZE = 6;
+
+
     private final ObjectMapper mapper = new ObjectMapper();
 
-    public Set<ArticleSummary> findAll(String tag, Integer page){
+    @CacheResult(cacheName = "find-all-cache")
+    public Set<BlogPostSummary> findAll(String tag, Integer page){
         try {
-            return Set.of(mapper.readValue(githubClient.findAll(), ArticleSummary[].class));
+            return Set.of(mapper.readValue(githubClient.findAll(), BlogPostSummary[].class))
+                    .stream()
+                    .filter(summary -> tag == null || tag.equals(summary.getTag()))
+                    .sorted(Comparator.comparing(BlogPostSummary::getDate).reversed())
+                    .skip(page != null ? PAGE_SIZE * page : 0)
+                    .limit(PAGE_SIZE)
+                    .collect(Collectors.toCollection(LinkedHashSet::new));
         } catch (JsonProcessingException | WebApplicationException e) {
             return Collections.emptySet();
         }
     }
 
-    public Optional<Article> findByUri(String uri) {
+    @CacheInvalidateAll(cacheName = "find-all-cache")
+    public void flushCache(){}
+
+    public Optional<BlogPost> findByUri(String uri) {
         try {
             return findArticleSummaryFromUri(uri)
-                    .map(articleSummary ->  {
-                        Article article = new Article(articleSummary);
-                        article.setContent(githubClient.findContentByPath(article.getPath()));
+                    .map(blogPostSummary ->  {
+                        BlogPost article = new BlogPost(blogPostSummary);
+                        var content = githubClient.findContentByPath(article.getPath());
+                        article.setContent(content);
                         return Optional.of(article);
                     }).orElse(Optional.empty());
         } catch (WebApplicationException e) {
@@ -47,14 +62,14 @@ public class BlogService {
     public Optional<String> findTitleByUri(String uri) {
         try {
             return findArticleSummaryFromUri(uri)
-                .map(articleSummary ->  Optional.of(articleSummary.getTitle()))
+                .map(blogPostSummary ->  Optional.of(blogPostSummary.getTitle()))
                         .orElse(Optional.empty());
         } catch (WebApplicationException e) {
             return Optional.empty();
         }
     }
 
-    private Optional<ArticleSummary> findArticleSummaryFromUri(String uri){
+    private Optional<BlogPostSummary> findArticleSummaryFromUri(String uri){
         return findAll(null, null).stream()
                 .filter(article -> uri.equals(article.getUri()))
                 .findFirst();
@@ -63,4 +78,5 @@ public class BlogService {
     public Set<Tag> findTags() {
         return Collections.emptySet();
     }
+
 }

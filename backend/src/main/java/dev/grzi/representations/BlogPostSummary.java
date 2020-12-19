@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ArticleSummary {
+public class BlogPostSummary {
     private String title;
     private String description;
     private String uri;
@@ -18,7 +18,7 @@ public class ArticleSummary {
     private String next;
     private String previous;
 
-    public ArticleSummary(String title, String description, String uri, String tag, String date, String author, boolean published, Images images, String path, String next, String previous) {
+    public BlogPostSummary(String title, String description, String uri, String tag, String date, String author, boolean published, Images images, String path, String next, String previous) {
         this.title = title;
         this.description = description;
         this.uri = uri;
@@ -34,10 +34,10 @@ public class ArticleSummary {
 
 
 
-    public ArticleSummary() {
+    public BlogPostSummary() {
     }
 
-    public ArticleSummary(ArticleSummary summary) {
+    public BlogPostSummary(BlogPostSummary summary) {
         this.title = summary.title;
         this.description = summary.description;
         this.uri = summary.uri;
@@ -149,7 +149,7 @@ public class ArticleSummary {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ArticleSummary that = (ArticleSummary) o;
+        BlogPostSummary that = (BlogPostSummary) o;
         return published == that.published && Objects.equals(title, that.title) && Objects.equals(description, that.description) && Objects.equals(uri, that.uri) && Objects.equals(tag, that.tag) && Objects.equals(date, that.date) && Objects.equals(author, that.author) && Objects.equals(images, that.images) && Objects.equals(path, that.path) && Objects.equals(next, that.next) && Objects.equals(previous, that.previous);
     }
 
