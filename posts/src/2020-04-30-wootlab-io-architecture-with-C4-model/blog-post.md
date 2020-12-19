@@ -12,7 +12,7 @@ This is a concrete list of what I wanted for this website :
 - Play with GCP stuffs
 - Integrate with github Actions
 - **And more importantly, don't pay anything !**
- 
+  
 ## C4 model representation
 
 My collegue <a href="https://twitter.com/riduidel" target="_blank">@Riduidel</a> recently published a <a href="https://riduidel.wordpress.com/architecturer-agilement-avec-c4-structurizr/" target="_blank">thread</a> about architecture (in French). In this thread, he describes how he usually documents his architectures. This is how I discovered the C4 model.

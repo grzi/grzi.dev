@@ -15,7 +15,7 @@ So, about this, my feeling is: NO, I don't need to be an experienced artist to s
 (But yes, I, don't forget to take some time to learn some theory)
 
 ## Where should I start ? 
-
+ 
 That's a long way I'm going into. Learning an art. What do I do ? Do I just open my software and draw ? clic clic clic? 
 Well.. no, that's not how it works when you're as poor skilled as me in this domain. 
 You'll have to read and watch tutorials. And a lot of them.

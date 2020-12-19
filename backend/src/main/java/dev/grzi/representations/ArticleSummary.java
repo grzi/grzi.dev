@@ -37,6 +37,21 @@ public class ArticleSummary {
     public ArticleSummary() {
     }
 
+    public ArticleSummary(ArticleSummary summary) {
+        this.title = summary.title;
+        this.description = summary.description;
+        this.uri = summary.uri;
+        this.tag = summary.tag;
+        this.date = summary.date;
+        this.author = summary.author;
+        this.published = summary.published;
+        this.images = summary.images;
+        this.path = summary.path;
+        this.next = summary.next;
+        this.previous = summary.previous;
+
+    }
+
     public String title() {
         return title;
     }

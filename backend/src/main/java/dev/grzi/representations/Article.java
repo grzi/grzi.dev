@@ -8,7 +8,8 @@ import java.util.Objects;
 public final class Article extends ArticleSummary {
     private String content;
 
-    public Article() {
+    public Article(ArticleSummary summary) {
+        super(summary);
     }
 
     public void setContent(String content) {

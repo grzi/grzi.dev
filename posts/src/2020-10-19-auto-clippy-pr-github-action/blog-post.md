@@ -5,7 +5,7 @@ In a recent post ( <a href="https://www.wootlab.io/blog/clippy-check-action-on-a
 To go further, I wanted to have a way to automatically apply these changes if I forgot to apply them myself.
 
 The result workflow uses <a href="https://www.github.com/peter-evans/create-pull-request" target="_blank">peter-evans/create-pull-request</a> action and clippy component : 
- 
+  
 ```yaml
 on:
   push:

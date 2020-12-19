@@ -17,7 +17,7 @@ public interface GithubClient{
     String findAll();
 
     @GET
-    @Path("/{uri}/blog-post.html")
+    @Path("/{path}/blog-post.html")
     @Produces("text/plain")
-    String findContentByUri(@PathParam("uri") String uri);
+    String findContentByPath(@PathParam("path") String path);
 }

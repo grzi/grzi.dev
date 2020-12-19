@@ -9,7 +9,6 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.validation.constraints.NotNull;
 import javax.ws.rs.WebApplicationException;
 import java.util.Collections;
 import java.util.Optional;
@@ -36,8 +35,8 @@ public class BlogService {
         try {
             return findArticleSummaryFromUri(uri)
                     .map(articleSummary ->  {
-                        Article article = (Article) articleSummary;
-                        article.setContent(githubClient.findContentByUri(uri));
+                        Article article = new Article(articleSummary);
+                        article.setContent(githubClient.findContentByPath(article.getPath()));
                         return Optional.of(article);
                     }).orElse(Optional.empty());
         } catch (WebApplicationException e) {

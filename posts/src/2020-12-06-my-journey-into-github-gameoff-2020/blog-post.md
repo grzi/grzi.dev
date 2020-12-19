@@ -13,7 +13,7 @@ This year, the theme was "MOONSHOT". eg:
 The them was revealed November 1st.
 
 ## The steps
-
+ 
 It was my first real game jam, by that I mean the first one I really wanted to do from start to finish. A month is, IMHO, a good time to do a mini-game. I tried jams of 3 days, but I'm clearly not ready to do quality in such a short time.
 
 So what were my milestones? Well ... the best way to describe them is surely to list:

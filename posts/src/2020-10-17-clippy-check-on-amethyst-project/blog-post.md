@@ -10,7 +10,7 @@ So, to be quick, two steps :
 - Install libasound2-dev before running clippy.
 
 The result action : 
- 
+  
 ```yaml
 on: pull_request
 name: Apply clippy comments to pull request

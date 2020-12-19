@@ -9,7 +9,7 @@ I often work on my own little games, in my spare time, to learn, make the good t
 - RPG maker
 - Lumberyard
 - ... (even LWJGL 2)
-   
+    
 Most of these game engines / lib gave me the feeling of over-powering my needs (except LWJGL 2, but I don't want a java game). They all are really nice engines and softwares. I've made multiple games with Unity3D, and I will certainly make more, because it's accessible and quick to get started with a new game. But with all these engines, I really don't have the feeling to understand technically speaking all that I'm doing. Indeed, when you create a shader in unity, like a glowing effect. You'll search for "glowing effect shader" on your search engine, and surely find a shader that fill your needs. And that's awesome. But I want to understand these things, not just use them.  I could just learn how it works on Unity, but I want to deep dive into it and know what's behind the scene.
 
 So, for now, I'm looking for a minimalist game engine. The one that will gave me the sensation of "doing" it and that will make me think, maybe during a lot of days, to understand the purpose of concepts like shaders, 3D movements, velocity, gravity...

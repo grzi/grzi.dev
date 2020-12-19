@@ -53,7 +53,7 @@ ssh-copy-id root@XX.XX.XX.XX
 ``` 
 
 I create an alias in my .bashrc (actually in my .zProfile) :
- 
+
 ```bash
 dockeraas() {
     echo 'I am running on the cloud ¯\_(ツ)_/¯'

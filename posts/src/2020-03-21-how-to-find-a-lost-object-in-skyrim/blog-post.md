@@ -9,4 +9,4 @@ I collect all the claws, so I needed to find it. I just didn't want to give myse
 - Go to the console and tip `player.moveto <refID>` (this will move you to the place where you lost your item)
 
 As far as I'm concerned, the golden claw was in the evidences chest in Whiterun, I don't remember why, but at least I've found where it was.
- 
+  
