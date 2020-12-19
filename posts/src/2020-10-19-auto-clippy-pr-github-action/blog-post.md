@@ -1,6 +1,6 @@
 # How to add a clippy check action to an Amethyst.rs project
 
-In a recent post ( <a href="https://www.wootlab.io/blog/clippy-check-action-on-amethyst-rs" target="_blank">here</a> ), I've talked about a workflow to have automatic comments on any changed file in pull requests.
+In a recent post ( <a href="https://www.grzi.dev/blog/clippy-check-action-on-amethyst-rs" target="_blank">here</a> ), I've talked about a workflow to have automatic comments on any changed file in pull requests.
 
 To go further, I wanted to have a way to automatically apply these changes if I forgot to apply them myself.
 

@@ -15,6 +15,7 @@ jobs:
       - name: script
         run: |
           pip install markdown2
+          pip install pygments
 
           git config user.email ${{secrets.MAIL}}
           git config user.name grzi

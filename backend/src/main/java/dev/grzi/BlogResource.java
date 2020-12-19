@@ -1,6 +1,6 @@
 package dev.grzi;
 
-import dev.grzi.representations.BlogPostSummary;
+import dev.grzi.representations.BlogPostSummaryAndPage;
 import dev.grzi.representations.Tag;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 
@@ -22,8 +22,8 @@ public class BlogResource {
     @GET
     @Path("/posts/")
     @PermitAll
-    public Set<BlogPostSummary> findAll(@QueryParam("tag") String tag, @QueryParam("page") Integer page) {
-        return blogService.findAll(tag, page);
+    public BlogPostSummaryAndPage findAll(@QueryParam("tag") String tag, @QueryParam("page") Integer page) {
+        return new BlogPostSummaryAndPage(blogService.findAll(tag, page, true), blogService.findPageNb(tag) );
     }
 
     @GET

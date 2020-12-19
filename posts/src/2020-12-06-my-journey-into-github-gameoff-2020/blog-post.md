@@ -39,6 +39,8 @@ Then I remembered the game I played when I was a kid. You controlled a ship on a
 I also looked for a way to fully fit into the moonshot theme, and not just with the landing stuff, but also with a short "story".
 
 I decided to list all the items I wanted in the game so I would know what to do next.
+
+
 <img style="margin:auto; border=1px solid gray;" src='https://storage.googleapis.com/wootlab-io-production.appspot.com/starlight.png' alt='list'>
 
 

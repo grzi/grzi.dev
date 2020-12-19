@@ -1,6 +1,6 @@
 # Pixel art learning (part 2: Making progress)
 
-In the [last article](https://www.wootlab.io/blog/pixel-art-learning-1), I started to learn pixel art. My goal after this first article was to be able to make a mini game sprite and make a game with it
+In the [last article](https://www.grzi.dev/blog/pixel-art-learning-1), I started to learn pixel art. My goal after this first article was to be able to make a mini game sprite and make a game with it
 
 **So, where am I now ?**
 

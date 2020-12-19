@@ -1,0 +1,26 @@
+@import "~bulma/bulma";
+@import "~bulma/sass/components/navbar";
+@import "code-theme.css";
+
+html{
+  background-color: #f3f3f3;
+}
+
+pre{
+  background:none !important;
+}
+
+pre code {
+  color: white;
+}
+
+.pixel-art-img {
+  display:block;
+  margin:auto;
+  border: 1px solid lightgray;
+}
+
+.simple-centered-image{
+  display:block;
+  margin:auto;
+}
