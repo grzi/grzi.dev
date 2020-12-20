@@ -138,6 +138,7 @@ mvn io.quarkus:quarkus-maven-plugin:1.10.5.Final:create \
 ### Create the api
 
 So, looking at my old api, I need the following paths :
+
 - GET /blog/posts
 - GET /blog/posts/{uri}
 - GET /blog/posts/{uri}/title
@@ -283,8 +284,8 @@ By adding the ```quarkus.swagger-ui.always-include=true``` configuration, I can 
 
 I need a REST client to call the Github Api. To be precise, I only need to call these endpoints :
 
-- GET https://raw.githubusercontent.com/grzi/grzi.dev/main/posts/global_meta.json
-- GET https://raw.githubusercontent.com/grzi/grzi.dev/main/posts/src/{uri}/blog-post.html
+- GET https://{url}/global_meta.json
+- GET https://{url}/src/{uri}/blog-post.html
 
 Each of these returns a raw content (String).
 
