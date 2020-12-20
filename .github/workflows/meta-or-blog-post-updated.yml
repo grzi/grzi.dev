@@ -34,5 +34,4 @@ jobs:
           git add posts/global_meta.json
 
           git commit -m "chore: Convert modified blog-post(s) to html and update global_meta.json"
-          echo "pushing to git"
           git push -u upstream_secured HEAD:main
