@@ -1,0 +1,399 @@
+<h1>Migrating my backend to quarkus / github, my journey</h1>
+
+<h2>Summary <a name="summary"></a></h2>
+
+<p>This blog was started with a different tech stack. It was previously based on GCP firebase and storage. A bit overwhelming for a simple blog, isn't it ?
+Once again, it was not chosen to fit any needs, but to fit my curiosity.
+I made a <a href="https://www.grzi.dev/blog/wootlab-io-architecture-c4-model" target="blank">blog post</a> about the old architecture behind my blog.</p>
+
+<p>But, the old domain name (wootlab.io) is getting to an end, and, as I wanted to go for a new one, I though it was time to test new things ! This time I'll try to make it fit my needs:</p>
+
+<ul>
+<li><strong>Get ride of most of my GCP coupling :</strong>
+<ul>
+<li>Google storage =&gt; github static files</li>
+<li>Google functions =&gt; github actions</li>
+<li>Blog posts storage =&gt; github static files &amp;&amp; local cache from the back</li>
+</ul></li>
+<li><strong>Migrate from Micronaut to Quarkus</strong>
+<ul>
+<li>Make the new Api / check OpenApi coupling</li>
+<li>Rest client</li>
+<li>Simple security</li>
+<li>Local caching</li>
+</ul></li>
+</ul>
+
+<p>So, the steps to follow for my migration were the following :</p>
+
+<ol>
+<li>Migrate the blog post data pipeline to github action</li>
+<li>Migrate the static storage content (mostly images) to github</li>
+<li>Migrate my backend to Quarkus</li>
+</ol>
+
+<h2>Migrate the blog post data pipeline <a href="data-pipeline"></a></h2>
+
+<p><strong>So, what's the deal ?</strong></p>
+
+<p>I still want to use markdown as my main language to edit posts. It's easy, and I'm used to it because I also use this to take notes every day.
+If I receive an update on any {blog<em>post</em>name}[blog<em>post.md | meta.json] the workflow begin for {blog post</em>name}.</p>
+
+<p>First I need to have a simple script that print a converted markdown to html and print it to the standard output.</p>
+
+<p><strong>Python is installed on the ubuntu environment on Github Actions, so:</strong></p>
+
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">markdown2</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">extras</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;fenced-code-blocks&quot;</span><span class="p">,</span> <span class="s2">&quot;full_yaml_metadata&quot;</span><span class="p">]))</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div>
+
+<p>Then, I need to handle my global meta with the following rules :
+- Read the <code>global_meta.json</code> file
+- If it doesn't exist, push the current meta.json in an array into <code>global_meta.json</code>
+- Else, search in the <code>global_meta.json</code> if the current blog post is present (search done by uri key)
+    - If found then replace it
+    - Else just push it at the end of the array</p>
+
+<p><strong>To do so, I'll use another python3 script:</strong></p>
+
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">global_meta_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;[]&#39;</span><span class="p">)</span>
+    <span class="n">exists</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">exists</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">global_meta</span><span class="p">:</span>
+            <span class="n">global_meta_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">global_meta</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">modified_meta</span><span class="p">:</span>
+        <span class="n">modified_meta_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">modified_meta</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+        <span class="n">modified_meta_json</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">found</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">global_meta_json</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="s1">&#39;uri&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">modified_meta_json</span><span class="p">[</span><span class="s1">&#39;uri&#39;</span><span class="p">]:</span>
+                <span class="n">i</span> <span class="o">=</span> <span class="n">modified_meta_json</span>
+                <span class="n">found</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">break</span>
+
+        <span class="k">if</span> <span class="n">found</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">global_meta_json</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">modified_meta_json</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">global_meta_json</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div>
+
+<p>Finally, I just need to call these scripts for each modified blog post, write the result into the appropriate files and push the modifications to the repository.</p>
+
+<p><strong>I'll just do it in a sh run :</strong></p>
+
+<div class="codehilite"><pre><span></span><code>  pip install markdown2
+  pip install pygments
+
+  git config user.email <span class="si">${</span><span class="p">{secrets.MAIL</span><span class="si">}</span><span class="o">}</span>
+  git config user.name grzi
+  git remote add upstream_secured https://grzi:<span class="si">${</span><span class="p">{secrets.GITHUB_TOKEN</span><span class="si">}</span><span class="o">}</span>@github.com/grzi/grzi.dev &gt; /dev/null <span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+
+  <span class="nv">commit_id</span><span class="o">=</span><span class="sb">`</span>git log --format<span class="o">=</span><span class="s2">&quot;%H&quot;</span> -n <span class="m">1</span><span class="sb">`</span>
+  <span class="nv">modified</span><span class="o">=</span><span class="sb">`</span>git diff-tree -no-commit-id --name-only -r <span class="nv">$commit_id</span> <span class="p">|</span> awk -F <span class="s2">&quot;/*[^/]*/*</span>$<span class="s2">&quot;</span> <span class="s1">&#39;{ print ($1 == &quot;&quot; ? &quot;.&quot; : $1); }&#39;</span> <span class="p">|</span> sort --unique <span class="p">|</span> grep <span class="s1">&#39;posts/src/&#39;</span><span class="sb">`</span>
+
+  <span class="k">for</span> i in <span class="nv">$modified</span><span class="p">;</span> <span class="k">do</span>
+    python3 scripts/markdown.py <span class="nv">$i</span>/blog-post.md &gt; <span class="nv">$i</span>/blog-post.html
+    <span class="nv">global_meta_updated</span><span class="o">=</span><span class="sb">`</span>python3 scripts/global_meta.py posts/global_meta.json <span class="nv">$i</span>/meta.json <span class="nv">$i</span><span class="sb">`</span>
+    <span class="nb">echo</span> <span class="nv">$global_meta_updated</span>&gt;posts/global_meta.json
+    git add <span class="nv">$i</span>/blog-post.html
+  <span class="k">done</span>
+
+  git add posts/global_meta.json
+
+  git commit -m <span class="s2">&quot;chore: Convert modified blog-post(s) to html and update global_meta.json&quot;</span>
+  git push -u upstream_secured HEAD:main
+</code></pre></div>
+
+<p>You can find <a href="https://github.com/grzi/grzi.dev/blob/main/.github/workflows/meta-or-blog-post-updated.yml" target="blank">here</a> the full Github action workflow file.</p>
+
+<p>And that's it. Launching the workflow with this gave me <a href="https://github.com/grzi/grzi.dev/commit/5b5c428d974405366398f1cb55f675a11d99b918"  target="blank"/>this kind of commit</a>.</p>
+
+<h2>Migrate the static storage content (mostly images) to github  <a href="#storage"></a></h2>
+
+<p>Mostly consist of copy pasting from google storage to github repository and updating src tags from my blog posts. Nothing more interesting to share.
+I created a <a href="https://github.com/grzi/grzi.dev.statics"  target="blank"/>repository</a> to do this.</p>
+
+<h2>Migrate from Micronaut to Quarkus <a href="quarkus"></a></h2>
+
+<h3>Init the project</h3>
+
+<p>Let's go ! Just simply following this <a href="https://quarkus.io/guides/getting-started#bootstrapping-the-project"  target="blank"/>guide</a></p>
+
+<p>I use the maven plugin to create the project.</p>
+
+<div class="codehilite"><pre><span></span><code>mvn io.quarkus:quarkus-maven-plugin:1.10.5.Final:create <span class="se">\</span>
+    -DprojectGroupId<span class="o">=</span>dev.grzi <span class="se">\</span>
+    -DprojectArtifactId<span class="o">=</span>backend <span class="se">\</span>
+    -DclassName<span class="o">=</span><span class="s2">&quot;dev.grzi.App&quot;</span> <span class="se">\</span>
+    -Dpath<span class="o">=</span><span class="s2">&quot;/hello&quot;</span>
+</code></pre></div>
+
+<h3>Create the api</h3>
+
+<p>So, looking at my old api, I need the following paths :
+- GET /blog/posts
+- GET /blog/posts/{uri}
+- GET /blog/posts/{uri}/title
+- GET /blog/tags</p>
+
+<p>How simple is that ...</p>
+
+<p>Let's do the api, calling an empty blog service for now :</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nd">@Path</span><span class="p">(</span><span class="s">&quot;/blog/&quot;</span><span class="p">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">BlogResource</span> <span class="p">{</span>
+    <span class="nd">@Inject</span>
+    <span class="kd">private</span> <span class="n">BlogService</span> <span class="n">blogService</span><span class="p">;</span>
+
+    <span class="nd">@GET</span>
+    <span class="nd">@Path</span><span class="p">(</span><span class="s">&quot;/posts/&quot;</span><span class="p">)</span>
+    <span class="nd">@PermitAll</span>
+    <span class="kd">public</span> <span class="n">BlogPostSummaryAndPage</span> <span class="nf">findAll</span><span class="p">(</span><span class="nd">@QueryParam</span><span class="p">(</span><span class="s">&quot;tag&quot;</span><span class="p">)</span> <span class="n">String</span> <span class="n">tag</span><span class="p">,</span> <span class="nd">@QueryParam</span><span class="p">(</span><span class="s">&quot;page&quot;</span><span class="p">)</span> <span class="n">Integer</span> <span class="n">page</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="n">BlogPostSummaryAndPage</span><span class="p">(</span><span class="n">blogService</span><span class="p">.</span><span class="na">findAll</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="kc">true</span><span class="p">),</span> <span class="n">blogService</span><span class="p">.</span><span class="na">findPageNb</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span> <span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="nd">@GET</span>
+    <span class="nd">@Path</span><span class="p">(</span><span class="s">&quot;posts/{uri}&quot;</span><span class="p">)</span>
+    <span class="nd">@PermitAll</span>
+    <span class="kd">public</span> <span class="n">Response</span> <span class="nf">findByUri</span><span class="p">(</span><span class="nd">@NotNull</span> <span class="nd">@PathParam</span><span class="p">(</span><span class="s">&quot;uri&quot;</span><span class="p">)</span> <span class="n">String</span> <span class="n">uri</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="n">blogService</span><span class="p">.</span><span class="na">findByUri</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
+              <span class="p">.</span><span class="na">map</span><span class="p">(</span><span class="n">article</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">.</span><span class="na">ok</span><span class="p">(</span><span class="n">article</span><span class="p">))</span>
+              <span class="p">.</span><span class="na">orElse</span><span class="p">(</span><span class="n">Response</span><span class="p">.</span><span class="na">status</span><span class="p">(</span><span class="n">Response</span><span class="p">.</span><span class="na">Status</span><span class="p">.</span><span class="na">NOT_FOUND</span><span class="p">)).</span><span class="na">build</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="nd">@GET</span>
+    <span class="nd">@Path</span><span class="p">(</span><span class="s">&quot;posts/{uri}/title&quot;</span><span class="p">)</span>
+    <span class="nd">@PermitAll</span>
+    <span class="nd">@Produces</span><span class="p">(</span><span class="n">MediaType</span><span class="p">.</span><span class="na">TEXT_PLAIN</span><span class="p">)</span>
+    <span class="kd">public</span> <span class="n">Response</span> <span class="nf">findTitleByUri</span><span class="p">(</span><span class="nd">@PathParam</span><span class="p">(</span><span class="s">&quot;uri&quot;</span><span class="p">)</span> <span class="n">String</span> <span class="n">uri</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="n">blogService</span><span class="p">.</span><span class="na">findTitleByUri</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
+              <span class="p">.</span><span class="na">map</span><span class="p">(</span><span class="n">title</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">.</span><span class="na">ok</span><span class="p">(</span><span class="n">title</span><span class="p">))</span>
+              <span class="p">.</span><span class="na">orElse</span><span class="p">(</span><span class="n">Response</span><span class="p">.</span><span class="na">status</span><span class="p">(</span><span class="n">Response</span><span class="p">.</span><span class="na">Status</span><span class="p">.</span><span class="na">NOT_FOUND</span><span class="p">)).</span><span class="na">build</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="nd">@GET</span>
+    <span class="nd">@PermitAll</span>
+    <span class="nd">@Path</span><span class="p">(</span><span class="s">&quot;/tags&quot;</span><span class="p">)</span>
+    <span class="kd">public</span> <span class="n">Set</span><span class="o">&lt;</span><span class="n">Tag</span><span class="o">&gt;</span> <span class="nf">findTags</span><span class="p">(</span><span class="nd">@PathParam</span> <span class="n">String</span> <span class="n">uri</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="n">blogService</span><span class="p">.</span><span class="na">findTags</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Now I just quickly try to run this with <code>./mvnw compile quarkus:dev</code> and then test the GET blog/posts/ endpoints to see if I get that empty set.</p>
+
+<h3>Using Open Api &amp;&amp; swagger UI</h3>
+
+<p>I don't really need to expose an open API contract for my backend. But I want to test a bit some features to see how it's handled by Quarkus.</p>
+
+<p>To play with open Api, I go to this <a href="https://quarkus.io/guides/openapi-swaggerui"  target="blank"/>guide</a>.</p>
+
+<p>I just run this command to add the dependency provided by Quarkus <code>./mvnw quarkus:add-extension -Dextensions="quarkus-smallrye-openapi"</code></p>
+
+<p>And I restart my App. I then go to <code>http://localhost:8080/openapi</code> and I have the exposed contract of which here is an extract :</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nn">---</span>
+<span class="nt">openapi</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3.0.3</span>
+<span class="nt">info</span><span class="p">:</span>
+  <span class="nt">title</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Generated API</span>
+  <span class="nt">version</span><span class="p">:</span> <span class="s">&quot;1.0&quot;</span>
+<span class="nt">paths</span><span class="p">:</span>
+  <span class="nt">/blog</span><span class="p">:</span>
+    <span class="nt">get</span><span class="p">:</span>
+      <span class="nt">parameters</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">page</span>
+        <span class="nt">in</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">query</span>
+        <span class="nt">schema</span><span class="p">:</span>
+          <span class="nt">format</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">int32</span>
+          <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">integer</span>
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">tag</span>
+        <span class="nt">in</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">query</span>
+        <span class="nt">schema</span><span class="p">:</span>
+          <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">responses</span><span class="p">:</span>
+        <span class="s">&quot;200&quot;</span><span class="p p-Indicator">:</span>
+          <span class="nt">description</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">OK</span>
+          <span class="nt">content</span><span class="p">:</span>
+            <span class="nt">application/json</span><span class="p">:</span>
+              <span class="nt">schema</span><span class="p">:</span>
+                <span class="nt">$ref</span><span class="p">:</span> <span class="s">&#39;#/components/schemas/SetBlogPostSummary&#39;</span>
+  <span class="l l-Scalar l-Scalar-Plain">/blog/posts/{uri}</span><span class="p p-Indicator">:</span>
+    <span class="nt">get</span><span class="p">:</span>
+      <span class="nt">parameters</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">uri</span>
+        <span class="nt">in</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">path</span>
+        <span class="nt">required</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+        <span class="nt">schema</span><span class="p">:</span>
+          <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">responses</span><span class="p">:</span>
+        <span class="s">&quot;200&quot;</span><span class="p p-Indicator">:</span>
+          <span class="nt">description</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">OK</span>
+          <span class="nt">content</span><span class="p">:</span>
+            <span class="nt">application/json</span><span class="p">:</span>
+              <span class="nt">schema</span><span class="p">:</span>
+                <span class="nt">$ref</span><span class="p">:</span> <span class="s">&#39;#/components/schemas/BlogPost&#39;</span>
+    <span class="nt">parameters</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">uri</span>
+      <span class="nt">in</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">path</span>
+      <span class="nt">required</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+      <span class="nt">schema</span><span class="p">:</span>
+        <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="nt">components</span><span class="p">:</span>
+  <span class="nt">schemas</span><span class="p">:</span>
+    <span class="nt">BlogPostSummary</span><span class="p">:</span>
+      <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">object</span>
+      <span class="nt">properties</span><span class="p">:</span>
+        <span class="nt">author</span><span class="p">:</span>
+          <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">date</span><span class="p">:</span>
+          <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">description</span><span class="p">:</span>
+          <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">images</span><span class="p">:</span>
+          <span class="nt">$ref</span><span class="p">:</span> <span class="s">&#39;#/components/schemas/Images&#39;</span>
+        <span class="nt">path</span><span class="p">:</span>
+          <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">published</span><span class="p">:</span>
+          <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">boolean</span>
+        <span class="nt">tag</span><span class="p">:</span>
+          <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">title</span><span class="p">:</span>
+          <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">url</span><span class="p">:</span>
+          <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+</code></pre></div>
+
+<p>It's really easy !
+By adding the <code>quarkus.swagger-ui.always-include=true</code> configuration, I can see the following swagger UI interface :</p>
+
+<p><img src="https://raw.githubusercontent.com/grzi/grzi.dev.statics/main/swagger_ui.png" alt="swagger_ui_picture"/></p>
+
+<h3>Creating a REST client for Github API</h3>
+
+<p>I need a REST client to call the Github Api. To be precise, I only need to call these endpoints :</p>
+
+<ul>
+<li>GET https://raw.githubusercontent.com/grzi/grzi.dev/main/posts/global_meta.json</li>
+<li>GET https://raw.githubusercontent.com/grzi/grzi.dev/main/posts/src/{uri}/blog-post.html</li>
+</ul>
+
+<p>Each of these returns a raw content (String).</p>
+
+<p>Once again, I search, find and follow an awesome <a href="https://quarkus.io/guides/rest-client"  target="blank"/>guide</a>.</p>
+
+<p>I start by adding the needed dependencies with <code>./mvnw quarkus:add-extension -Dextensions="rest-client,resteasy-jackson"</code></p>
+
+<p>I then create the Interface as said in the tutorial :</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nd">@Path</span><span class="p">(</span><span class="s">&quot;/grzi/grzi.dev/main&quot;</span><span class="p">)</span>
+<span class="nd">@RegisterRestClient</span><span class="p">(</span><span class="n">configKey</span><span class="o">=</span><span class="s">&quot;github-api&quot;</span><span class="p">)</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">GithubClient</span><span class="p">{</span>
+
+    <span class="nd">@GET</span>
+    <span class="nd">@Path</span><span class="p">(</span><span class="s">&quot;posts/global_meta.json&quot;</span><span class="p">)</span>
+    <span class="nd">@Produces</span><span class="p">(</span><span class="s">&quot;text/plain&quot;</span><span class="p">)</span>
+    <span class="n">String</span> <span class="nf">findAll</span><span class="p">();</span>
+
+    <span class="nd">@GET</span>
+    <span class="nd">@Path</span><span class="p">(</span><span class="s">&quot;/{path}/blog-post.html&quot;</span><span class="p">)</span>
+    <span class="nd">@Produces</span><span class="p">(</span><span class="s">&quot;text/plain&quot;</span><span class="p">)</span>
+    <span class="n">String</span> <span class="nf">findContentByPath</span><span class="p">(</span><span class="nd">@PathParam</span><span class="p">(</span><span class="s">&quot;path&quot;</span><span class="p">)</span> <span class="n">String</span> <span class="n">path</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>I simply link the previous empty service to call this client, and I'm ready to go.</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nd">@ApplicationScoped</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">BlogService</span> <span class="p">{</span>
+
+    <span class="nd">@Inject</span>
+    <span class="nd">@RestClient</span>
+    <span class="kd">private</span> <span class="n">GithubClient</span> <span class="n">githubClient</span><span class="p">;</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">ObjectMapper</span> <span class="n">mapper</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ObjectMapper</span><span class="p">();</span>
+
+    <span class="kd">public</span> <span class="n">Set</span><span class="o">&lt;</span><span class="n">BlogPostSummary</span><span class="o">&gt;</span> <span class="nf">findAll</span><span class="p">(</span><span class="n">String</span> <span class="n">tag</span><span class="p">,</span> <span class="n">Integer</span> <span class="n">page</span><span class="p">){</span>
+        <span class="k">try</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">Set</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="n">mapper</span><span class="p">.</span><span class="na">readValue</span><span class="p">(</span><span class="n">githubClient</span><span class="p">.</span><span class="na">findAll</span><span class="p">(),</span> <span class="n">BlogPostSummary</span><span class="o">[]</span><span class="p">.</span><span class="na">class</span><span class="p">));</span>
+        <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">JsonProcessingException</span> <span class="o">|</span> <span class="n">WebApplicationException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">Collections</span><span class="p">.</span><span class="na">emptySet</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="p">...</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3>Adding a cache</h3>
+
+<p>As I'm getting the metas informations from only one endpoint and it is for ALL the blog posts, I want to have a flushable local cache on my 'findAll' method in my BlogService. Flushable because I want to be able to manually flush it when I update any blog post.</p>
+
+<p>For this, I'll follow this <a href="https://quarkus.io/guides/cache"  target="blank"/>guide</a>.</p>
+
+<p>I start by adding the dependency with <code>./mvnw quarkus:add-extension -Dextensions="cache"</code>.</p>
+
+<p>Then I add the Cache annotation to the desired method :</p>
+
+<div class="codehilite"><pre><span></span><code>    <span class="nd">@CacheResult</span><span class="p">(</span><span class="n">cacheName</span> <span class="o">=</span> <span class="s">&quot;find-all-cache&quot;</span><span class="p">)</span>
+    <span class="kd">public</span> <span class="n">Set</span><span class="o">&lt;</span><span class="n">BlogPostSummary</span><span class="o">&gt;</span> <span class="nf">findAll</span><span class="p">(</span><span class="n">String</span> <span class="n">tag</span><span class="p">,</span> <span class="n">Integer</span> <span class="n">page</span><span class="p">){</span>
+</code></pre></div>
+
+<p>And finally, I create a method with the InvalidateAll, that will later be called by a secured endpoint :</p>
+
+<div class="codehilite"><pre><span></span><code>    <span class="nd">@CacheInvalidateAll</span><span class="p">(</span><span class="n">cacheName</span> <span class="o">=</span> <span class="s">&quot;find-all-cache&quot;</span><span class="p">)</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">flushCache</span><span class="p">(){}</span>
+</code></pre></div>
+
+<p>To test this, I simply add a debug breakpoint inside the findAll. When starting the app and making a call, I should get it only one time (And that's the case).</p>
+
+<h3>Secured endpoint</h3>
+
+<p>To be able to trigger the cache flushing, I need to create a simple secured endpoint.</p>
+
+<p>I follow this guide for this.</p>
+
+<p>First, I add the following dependency <code>quarkus-elytron-security-properties-file</code></p>
+
+<p>I then enable security and configure my user in the application.properties :</p>
+
+<div class="codehilite"><pre><span></span><code><span class="na">quarkus.http.auth.basic</span><span class="o">=</span><span class="s">true</span>
+<span class="na">quarkus.security.users.embedded.plain-text</span><span class="o">=</span><span class="s">true</span>
+<span class="na">quarkus.security.users.embedded.enabled</span><span class="o">=</span><span class="s">true</span>
+<span class="na">quarkus.security.users.embedded.users.github</span><span class="o">=</span><span class="s">password</span>
+<span class="na">quarkus.security.users.embedded.roles.github</span><span class="o">=</span><span class="s">FLUSHER</span>
+</code></pre></div>
+
+<p>I configure the previous endpoints to permitAll, and add a secured endpoint :</p>
+
+<div class="codehilite"><pre><span></span><code>    <span class="nd">@GET</span>
+    <span class="nd">@Path</span><span class="p">(</span><span class="s">&quot;/posts/&quot;</span><span class="p">)</span>
+    <span class="nd">@PermitAll</span>
+    <span class="kd">public</span> <span class="n">Set</span><span class="o">&lt;</span><span class="n">BlogPostSummary</span><span class="o">&gt;</span> <span class="nf">findAll</span><span class="p">(</span><span class="nd">@QueryParam</span><span class="p">(</span><span class="s">&quot;tag&quot;</span><span class="p">)</span> <span class="n">String</span> <span class="n">tag</span><span class="p">,</span> <span class="nd">@QueryParam</span><span class="p">(</span><span class="s">&quot;page&quot;</span><span class="p">)</span> <span class="n">Integer</span> <span class="n">page</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">blogService</span><span class="p">.</span><span class="na">findAll</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">page</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="nd">@PATCH</span>
+    <span class="nd">@RolesAllowed</span><span class="p">(</span><span class="s">&quot;FLUSHER&quot;</span><span class="p">)</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">flushCache</span><span class="p">(){</span>
+        <span class="n">blogService</span><span class="p">.</span><span class="na">flushCache</span><span class="p">();</span>
+    <span class="p">}</span>
+</code></pre></div>
+
+<p>Right now, calling without any auth informations :
+- <code>GET http://localhost:8080/blog/posts</code> returns 200
+- <code>PATCH http://localhost:8080/blog/flush-cache</code> returns 401.</p>
+
+<p>But if I add the auth informations : <code>curl -i -X PATCH -u github:password http://localhost:8080/blog/flush-cache</code> then it's flushing the cache</p>
+
+<blockquote>
+  <p>And that's it ! I've got a new backend to use, in quarkus !! I certainly have a colleague that will be proud :P</p>
+</blockquote>
+
