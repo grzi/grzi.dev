@@ -139,11 +139,14 @@ I created a <a href="https://github.com/grzi/grzi.dev.statics"  target="blank"/>
 
 <h3>Create the api</h3>
 
-<p>So, looking at my old api, I need the following paths :
-- GET /blog/posts
-- GET /blog/posts/{uri}
-- GET /blog/posts/{uri}/title
-- GET /blog/tags</p>
+<p>So, looking at my old api, I need the following paths :</p>
+
+<ul>
+<li>GET /blog/posts</li>
+<li>GET /blog/posts/{uri}</li>
+<li>GET /blog/posts/{uri}/title</li>
+<li>GET /blog/tags</li>
+</ul>
 
 <p>How simple is that ...</p>
 
@@ -282,8 +285,8 @@ By adding the <code>quarkus.swagger-ui.always-include=true</code> configuration,
 <p>I need a REST client to call the Github Api. To be precise, I only need to call these endpoints :</p>
 
 <ul>
-<li>GET https://raw.githubusercontent.com/grzi/grzi.dev/main/posts/global_meta.json</li>
-<li>GET https://raw.githubusercontent.com/grzi/grzi.dev/main/posts/src/{uri}/blog-post.html</li>
+<li>GET https://{url}/global_meta.json</li>
+<li>GET https://{url}/src/{uri}/blog-post.html</li>
 </ul>
 
 <p>Each of these returns a raw content (String).</p>
