@@ -3,8 +3,8 @@
   "description": "This article will talk about the workflow needed to automatically have a PR with clippy suggestions on push to the main branch",
   "uri": "auto-clippy-pr-github-action",
   "images": {
-    "highResolutionUrl": "https://storage.googleapis.com/wootlab-io-production.appspot.com/panda.jpg",
-    "miniatureUrl": "https://storage.googleapis.com/wootlab-io-production.appspot.com/panda-miniature.jpg",
+    "highResolutionUrl": "https://raw.githubusercontent.com/grzi/grzi.dev.statics/main/panda.jpg",
+    "miniatureUrl": "https://raw.githubusercontent.com/grzi/grzi.dev.statics/main/panda-miniature.jpg",
     "credits": "Photo by Sid Balachandran on Unsplash"
   },
   "tag": "Rust",

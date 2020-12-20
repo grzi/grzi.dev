@@ -16,12 +16,12 @@ I still have a lot to learn, but a big step is taken when you accept that it is 
 
 For my mini-game sprite, I chose to opt for a palette of 4 colors. I wanted to make a gameboy style game, so I opted for this palette:
 
-<img src="https://storage.googleapis.com/wootlab-io-production.appspot.com/palette.png" class="pixel-art-img" alt="palet"/>
+<img src="https://raw.githubusercontent.com/grzi/grzi.dev.statics/main/palette.png" class="pixel-art-img" alt="palet"/>
 
 On gameboy, they only had 4 palette colors, one for transparency and 3 for pixel art. They could also use the color of transparency inside to make light. Using this, I made a cool little sprite and a moving character:
 
-<img src="https://storage.googleapis.com/wootlab-io-production.appspot.com/character-gameboy.gif" class="pixel-art-img" alt="character"/>
-<img src="https://storage.googleapis.com/wootlab-io-production.appspot.com/sprite_gameboy.png" class="pixel-art-img" alt="sprite"/>
+<img src="https://raw.githubusercontent.com/grzi/grzi.dev.statics/main/character-gameboy.gif" class="pixel-art-img" alt="character"/>
+<img src="https://raw.githubusercontent.com/grzi/grzi.dev.statics/main/sprite_gameboy.png" class="pixel-art-img" alt="sprite"/>
 
 And I managed to use the great amethyst.rs engine to create a little POC game with these:
 <div class="post-video">

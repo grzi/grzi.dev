@@ -3,8 +3,8 @@
   "description": "Sometimes, you want to find a lost object in Skyrim. It's not that easy as it can be everywhere. Here is how to find it.",
   "uri": "find-a-lost-object-in-skyrim",
   "images": {
-    "highResolutionUrl": "https://storage.googleapis.com/wootlab-io-production.appspot.com/skyrim.jpg",
-    "miniatureUrl": "https://storage.googleapis.com/wootlab-io-production.appspot.com/skyrim_miniature.jpg",
+    "highResolutionUrl": "https://raw.githubusercontent.com/grzi/grzi.dev.statics/main/skyrim.jpg",
+    "miniatureUrl": "https://raw.githubusercontent.com/grzi/grzi.dev.statics/main/skyrim_miniature.jpg",
     "credits": "Photo by imgur (https://imgur.com/kgpPUaE)"
   },
   "tag": "Video Game",

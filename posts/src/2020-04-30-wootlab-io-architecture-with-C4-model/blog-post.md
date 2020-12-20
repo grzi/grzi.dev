@@ -23,7 +23,7 @@ After seeing an <a href="https://www.youtube.com/watch?v=x2-rSnhpw0g" target="_b
 
 The goal here is therefore to have a truly abstract view of everything. This is called a context or level 1 diagram.
 
-<img src="https://storage.googleapis.com/wootlab-io-production.appspot.com/C4-model-wootlab/wootlabC4-context.png" alt="diagram-context" class="simple-centered-image"/> 
+<img src="https://raw.githubusercontent.com/grzi/grzi.dev.statics/main/C4-model-wootlab/wootlabC4-context.png" alt="diagram-context" class="simple-centered-image"/> 
 
 Here we can see that we have two types of users and what they "want" to be able to do in the Wootlab.io ecosystem.
 
@@ -32,13 +32,13 @@ Here we can see that we have two types of users and what they "want" to be able 
 Let's focus now on the Wootlab.io system. This is actually the website himself without the administration part.
 This is called a container, or level 2 diagram
 
-<img src="https://storage.googleapis.com/wootlab-io-production.appspot.com/C4-model-wootlab/C4-model-Container%20diagram%20-%20Wootlab%20io.png" alt="wootlab-container-diagram" class="simple-centered-image"/>
+<img src="https://raw.githubusercontent.com/grzi/grzi.dev.statics/main/C4-model-wootlab/C4-model-Container%20diagram%20-%20Wootlab%20io.png" alt="wootlab-container-diagram" class="simple-centered-image"/>
 
 ### Administration System diagram
 
 Now, we focus on tha administration system, dedicated to me.
 
-<img src="https://storage.googleapis.com/wootlab-io-production.appspot.com/C4-model-wootlab/C4-model-Container%20diagram%20-%20Wootlab%20io%20Administration.png" alt="wootlab-admin-container-diagram" class="simple-centered-image"/>
+<img src="https://raw.githubusercontent.com/grzi/grzi.dev.statics/main/C4-model-wootlab/C4-model-Container%20diagram%20-%20Wootlab%20io%20Administration.png" alt="wootlab-admin-container-diagram" class="simple-centered-image"/>
 
 To go a little bit further, a blog post is divided into two files :
 

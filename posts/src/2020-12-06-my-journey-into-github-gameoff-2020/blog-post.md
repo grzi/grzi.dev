@@ -41,7 +41,7 @@ I also looked for a way to fully fit into the moonshot theme, and not just with 
 I decided to list all the items I wanted in the game so I would know what to do next.
 
 
-<img style="margin:auto; border=1px solid gray;" src='https://storage.googleapis.com/wootlab-io-production.appspot.com/starlight.png' alt='list'>
+<img style="margin:auto; border=1px solid gray;" src='https://raw.githubusercontent.com/grzi/grzi.dev.statics/main/starlight.png' alt='list'>
 
 
 ### Sketches
@@ -52,7 +52,7 @@ I then started working on artistic sketches for the game, to have a first sprite
 
 This is how I built the first scene in the game (the colors were really different ... ^^):
 
-<img style="margin:auto; border=1px solid gray;" src='https://storage.googleapis.com/wootlab-io-production.appspot.com/starlight2.jpeg'>
+<img style="margin:auto; border=1px solid gray;" src='https://raw.githubusercontent.com/grzi/grzi.dev.statics/main/starlight2.jpeg'>
 
 ### Key features
 

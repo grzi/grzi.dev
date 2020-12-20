@@ -46,7 +46,7 @@ So I will try to make it look nice with only 2 colors and 16 pixel large.
 
 This is the result for this : 
 
-<img src="https://storage.googleapis.com/wootlab-io-development.appspot.com/hammer.png" class="pixel-art-img" alt="hammer"/>
+<img src="https://raw.githubusercontent.com/grzi/grzi.dev.statics/main/hammer.png" class="pixel-art-img" alt="hammer"/>
 
 *I know it isn't perfect but I think it looks like a hammer. So it's a first win, nah ?*
 
