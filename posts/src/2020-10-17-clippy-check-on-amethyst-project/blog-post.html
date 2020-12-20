@@ -13,26 +13,26 @@
 
 <p>The result action : </p>
 
-<pre><code>on: pull_request
-name: Apply clippy comments to pull request
-jobs:
-  clippy_check:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: nightly
-          components: clippy
-          override: true
-      - name: install lib
-        run: sudo apt install libasound2-dev
-      - run: rustup component add clippy
-      - uses: actions-rs/clippy-check@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          args: --features vulkan
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="nt">on</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">pull_request</span>
+<span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Apply clippy comments to pull request</span>
+<span class="nt">jobs</span><span class="p">:</span>
+  <span class="nt">clippy_check</span><span class="p">:</span>
+    <span class="nt">runs-on</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+    <span class="nt">steps</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/checkout@v2</span>
+      <span class="p p-Indicator">-</span> <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions-rs/toolchain@v1</span>
+        <span class="nt">with</span><span class="p">:</span>
+          <span class="nt">toolchain</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nightly</span>
+          <span class="nt">components</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">clippy</span>
+          <span class="nt">override</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">install lib</span>
+        <span class="nt">run</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">sudo apt install libasound2-dev</span>
+      <span class="p p-Indicator">-</span> <span class="nt">run</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">rustup component add clippy</span>
+      <span class="p p-Indicator">-</span> <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions-rs/clippy-check@v1</span>
+        <span class="nt">with</span><span class="p">:</span>
+          <span class="nt">token</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ secrets.GITHUB_TOKEN }}</span>
+          <span class="nt">args</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">--features vulkan</span>
+</code></pre></div>
 
 <p>Please note that this action doesn't work for PR that comes from forks, due to token limitations.</p>
 

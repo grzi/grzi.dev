@@ -42,35 +42,35 @@ So, I thought I could use a remote docker instance instead of using my local one
 
 <p>I set up a simple dns entry in my <code>etc/hosts</code> file</p>
 
-<pre><code>XX.XX.XX.XX     dockercloud
-</code></pre>
+<div class="codehilite"><pre><span></span><code>XX.XX.XX.XX     dockercloud
+</code></pre></div>
 
 <p>Then, I need to generate a ssh key :</p>
 
-<pre><code>ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
-</code></pre>
+<div class="codehilite"><pre><span></span><code>ssh-keygen -t rsa -b <span class="m">4096</span> -C <span class="s2">&quot;your_email@example.com&quot;</span>
+</code></pre></div>
 
 <p>I simply add this generated key to the vps :</p>
 
-<pre><code>ssh-copy-id root@XX.XX.XX.XX
-</code></pre>
+<div class="codehilite"><pre><span></span><code>ssh-copy-id root@XX.XX.XX.XX
+</code></pre></div>
 
 <p>I create an alias in my .bashrc (actually in my .zProfile) :</p>
 
-<pre><code>dockeraas() {
-    echo 'I am running on the cloud ¯\_(ツ)_/¯'
-    ssh root@dockercloud "docker $@"
-}
-</code></pre>
+<div class="codehilite"><pre><span></span><code>dockeraas<span class="o">()</span> <span class="o">{</span>
+    <span class="nb">echo</span> <span class="s1">&#39;I am running on the cloud ¯\_(ツ)_/¯&#39;</span>
+    ssh root@dockercloud <span class="s2">&quot;docker </span><span class="nv">$@</span><span class="s2">&quot;</span>
+<span class="o">}</span>
+</code></pre></div>
 
 <p>After I have set up all this things, I can just run my docker command as usual :</p>
 
-<pre><code>$ : dockeraas ps
-I am running on the cloud ¯\_(ツ)_/¯
+<div class="codehilite"><pre><span></span><code>$ : dockeraas ps
+I am running on the cloud ¯<span class="se">\_</span><span class="o">(</span>ツ<span class="o">)</span>_/¯
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                      NAMES
-35dc9622cd36        postgres:10.5       "docker-entrypoint.s…"   About an hour ago   Up About an hour    0.0.0.0:5432-&gt;5432/tcp     order_db
-444476070ef8        mongo               "docker-entrypoint.s…"   9 months ago        Up 9 months         0.0.0.0:27017-&gt;27017/tcp   brave_morse
-</code></pre>
+35dc9622cd36        postgres:10.5       <span class="s2">&quot;docker-entrypoint.s…&quot;</span>   About an hour ago   Up About an hour    <span class="m">0</span>.0.0.0:5432-&gt;5432/tcp     order_db
+444476070ef8        mongo               <span class="s2">&quot;docker-entrypoint.s…&quot;</span>   <span class="m">9</span> months ago        Up <span class="m">9</span> months         <span class="m">0</span>.0.0.0:27017-&gt;27017/tcp   brave_morse
+</code></pre></div>
 
 <p>And now I'm good to go. 1.5GB available on my local machine to give to google chrome :P !</p>
 
