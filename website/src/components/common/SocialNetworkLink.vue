@@ -1,6 +1,6 @@
 <template>
   <div class="section-title" :class="{'floating': isFloating}">
-    <div :class="{'displaynone': isFloating}">
+    <div :class="{'displaynone': isFloating || hideTitle}">
       <b>Connect with me online</b>
     </div>
     <a class="button is-primary is-Twitter" href="https://www.twitter.com/jeremythulliez" target="_blank">
@@ -24,7 +24,7 @@
 <script>
 export default {
   name: 'SocialNetworkLink',
-  props: ['isFloating']
+  props: ['isFloating', 'hideTitle']
 }
 </script>
 

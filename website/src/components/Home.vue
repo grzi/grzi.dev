@@ -6,7 +6,7 @@
       <div class="home-container">
         <div>
           <img class="img-logo"
-               src="https://avatars1.githubusercontent.com/u/43185161?s=400&u=0f077352dbc68985059720a9bd2f36f936b847af&v=4">
+               src="../assets/me.jpg">
         </div>
         <div class="title-container">
           <div class="title-principal">
@@ -14,7 +14,7 @@
             <div class="title-principal-secondary">Blog - Projects - Tools</div>
           </div>
           <div class="title-description">Hello, I'm Jeremy.</div>
-          <div class="title-description">I'm a pasionate developer for <a href="https://www.zenika.com">Zenika</a>.</div>
+          <div class="title-description">I'm a pasionate developer.</div>
           <div class="btns-list-container">
           </div>
         </div>

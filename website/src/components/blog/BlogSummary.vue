@@ -3,7 +3,7 @@
     <Loader v-if="loading || !allImagesLoaded" :text="''" :fullPage="true"/>
     <div :class="{'displayNone': !allImagesLoaded }" class="blog-container">
       <div class="columns list-articles">
-        <div class="column is-two-thirds">
+        <div class="column is-full">
           <div>
             <div class="section-title">
               <div>
@@ -23,30 +23,6 @@
             <button class="pagination-next" :disabled="disableNextPage()" @click="nextPage()">Next page</button>
           </nav>
         </div>
-        <div class="column is-one-third">
-          <SocialNetworkLink :is-floating="false"/>
-          <nav class="panel section-title">
-            <p class="panel-heading">
-              All tags
-            </p>
-            <div class="panel-block">
-              <p class="control has-icons-left">
-                <input class="input" type="text" placeholder="Filter tags" v-model="tagListSearch">
-                <span class="icon is-left">
-                 <font-awesome-icon icon="search"/>
-                </span>
-              </p>
-            </div>
-            <div v-for="tag in tagList" :key="tag.tag">
-              <router-link :to="'/blog?t=' + encodeURI(tag.tag).toString()" tabindex="1" class="panel-block is-active" v-if="shouldBeDisplayed(tag.tag)">
-                <span class="panel-icon">
-                  <font-awesome-icon icon="tag"/>
-                </span>
-                {{tag.tag}} ({{tag.size}})
-              </router-link>
-            </div>
-          </nav>
-        </div>
       </div>
     </div>
   </div>
@@ -62,7 +38,7 @@ import imagesLoaded from 'vue-images-loaded'
 
 export default {
   name: 'Blog',
-  components: { Loader, ArticleVignette, SocialNetworkLink },
+  components: { Loader, ArticleVignette },
   directives: {
     imagesLoaded
   },
@@ -82,9 +58,6 @@ export default {
     }
   },
   methods: {
-    shouldBeDisplayed (tag) {
-      return this.tagListSearch === '' || tag.includes(this.tagListSearch)
-    },
     disableNextPage () {
       return this.currentPage >= this.searchResult.totalPages
     },
@@ -99,28 +72,21 @@ export default {
         }, 100)
       }
     },
-    searchTags () {
-      axios
-        .get(process.env.VUE_APP_BACKEND_URL + '/blog/tags')
-        .then(response => {
-          this.tagList = response.data.sort((a, b) => a.tag.localeCompare(b.tag))
-        }).catch(error => console.error(error))
-    },
     searchArticles () {
       this.loading = true
       this.$store.state.toggleOffNavbar = true
-      let requestUri = process.env.VUE_APP_BACKEND_URL + '/blog/posts?page=' + (this.currentPage - 1)
-
-      if (this.currentTag && this.currentTag !== '') {
-        requestUri += '&tag=' + this.currentTag
-      }
-
+      let requestUri = 'https://raw.githubusercontent.com/grzi/grzi.dev/main/posts/global_meta.json'
       axios
         .get(requestUri)
         .then(response => {
           this.$store.state.toggleOffNavbar = false
           this.$nextTick(function () {
-            this.searchResult = response.data
+            this.searchResult.posts = response.data
+            this.searchResult.posts.sort(function (a, b) {
+              if (a.date < b.date) { return 1 }
+              if (a.date > b.date) { return -1 }
+              return 0
+            })
             if (!this.searchResult.posts || this.searchResult.posts.length === 0) {
               window.location.href = '/404'
             }
@@ -153,7 +119,6 @@ export default {
   mounted () {
     this.currentPage = (this.$route.query && this.$route.query.p) ? this.$route.query.p : 1
     this.currentTag = (this.$route.query && this.$route.query.t) ? this.$route.query.t : null
-    this.searchTags()
     this.searchArticles()
   },
   metaInfo () {

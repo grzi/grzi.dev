@@ -23,21 +23,6 @@
         </div>
         <div class="post-content" v-html="article.content">
         </div>
-        <div class="post-content" v-if="shouldDisplayNext() || shouldDisplayPrevious()">
-          <div class="with-separator">
-          </div>
-        </div>
-        <nav class="pagination post-content reduced-margin-top" role="navigation" aria-label="next-and-previous-article"
-             v-if="shouldDisplayNext() || shouldDisplayPrevious()"
-        >
-          <router-link class="rightauto" v-if="shouldDisplayPrevious()" :to="'/blog/' + article.previous">
-            <b>Previous:</b> {{article.previousTitle}}
-          </router-link>
-
-          <router-link  class='leftauto' v-if="shouldDisplayNext()" :to="'/blog/' + article.next">
-            <b>Next:</b> {{article.nextTitle}}
-          </router-link>
-        </nav>
         <AboutTheAuthor/>
       </div>
       <div class="footer-container">
@@ -72,18 +57,7 @@ export default {
   directives: {
     imagesLoaded
   },
-  computed: {
-    authenticated () {
-      return this.$store.getters.authenticated
-    }
-  },
   methods: {
-    shouldDisplayPrevious () {
-      return this.article.previous && this.article.previous !== '' && this.article.previousTitle && this.article.previousTitle !== ''
-    },
-    shouldDisplayNext () {
-      return this.article.next && this.article.next !== '' && this.article.nextTitle && this.article.nextTitle !== ''
-    },
     loaded (instance, image) {
       if (image.img.src !== '') {
         setTimeout(() => {
@@ -107,43 +81,33 @@ export default {
         }, 50)
       }
     },
-    loadNextPrevious () {
-      if (this.article.next) {
-        axios
-          .get(process.env.VUE_APP_BACKEND_URL + '/blog/posts/' + this.article.next + '/title')
-          .then(response => {
-            this.$set(this.article, 'nextTitle', response.data)
-          })
-      }
-      if (this.article.previous) {
-        axios
-          .get(process.env.VUE_APP_BACKEND_URL + '/blog/posts/' + this.article.previous + '/title')
-          .then(response => {
-            this.$set(this.article, 'previousTitle', response.data)
-          })
-      }
-      this.loading = false
-    },
     loadArticle () {
       axios
-        .get(process.env.VUE_APP_BACKEND_URL + '/blog/posts/' + this.$route.params.path)
+        .get('https://raw.githubusercontent.com/grzi/grzi.dev/main/posts/global_meta.json')
         .then(response => {
-          if (response.status === 200 && response.data !== '') {
-            this.$set(this.article, '', response.data)
-            this.article = response.data
-            if (response.data.next || response.data.previous) {
-              this.loadNextPrevious()
-            } else {
-              this.loading = false
+          var uri = response.data.filter(e => {
+            return e.uri === this.$route.params.path
+          })
+          axios
+            .get('https://raw.githubusercontent.com/grzi/grzi.dev/main/' + uri[0].path + '/blog-post.html')
+            .then(response => {
+              if (response.status === 200 && response.data !== '') {
+                this.$set(this.article, '', response.data)
+                this.article = uri[0]
+                this.article.content = response.data
+                this.loading = false
+              }
             }
-          }
-        }
-        ).catch(e => {
+            ).catch(e => {
+              this.retry++
+              if (this.retry < 5) {
+                setTimeout(() => { this.loadArticle() }, 500)
+              }
+            })
+        }).catch(e => {
           this.retry++
           if (this.retry < 5) {
             setTimeout(() => { this.loadArticle() }, 500)
-          } else {
-            window.location.href = '/404'
           }
         })
     }

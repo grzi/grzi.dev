@@ -4,16 +4,17 @@
       <div class="about-author-flexbox">
         <div>
           <img class="img-author"
-               src="https://avatars1.githubusercontent.com/u/43185161?s=400&u=0f077352dbc68985059720a9bd2f36f936b847af&v=4">
+               src="../../assets/me.jpg">
         </div>
         <div class="title-container">
           <div class="title-principal">
             <div class="writtenby">Written by </div>
           </div>
           <div class="author-name">Jérémy THULLIEZ</div>
-          <div class="author-description">I'm a pasionate developer for <a href="https://www.zenika.com">Zenika</a>.
+          <div class="author-description">I'm a passionate developer.
           </div>
           <div class="btns-list-container">
+            <SocialNetworkLink hide-title="true"/>
           </div>
         </div>
       </div>
@@ -22,8 +23,10 @@
 </template>
 
 <script>
+import SocialNetworkLink from '@/components/common/SocialNetworkLink'
 export default {
-  name: 'AboutTheAuthor'
+  name: 'AboutTheAuthor',
+  components: { SocialNetworkLink }
 }
 </script>
 
@@ -67,6 +70,10 @@ export default {
   }
 
   .author-description{
+    margin-top: 15px;
+  }
+
+  .btns-list-container{
     margin-top: 15px;
   }
 </style>
