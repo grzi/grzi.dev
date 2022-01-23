@@ -2,10 +2,6 @@
   <div class="about-author-container">
     <div class="about-author">
       <div class="about-author-flexbox">
-        <div class="photo-author">
-          <img class="img-author"
-               src="../../assets/me.jpg">
-        </div>
         <div class="title-container">
           <div class="title-principal">
           </div>
