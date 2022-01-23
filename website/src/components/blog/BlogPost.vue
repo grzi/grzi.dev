@@ -304,34 +304,6 @@ export default {
     }
   }
 
-  @media (max-width: 535px) {
-    .post-title-mobile{
-      font-size:2em;
-    }
-    h1 {
-      font-size: 1.4rem;
-      line-height: 3.75rem;
-      font-weight: 700;
-      border-bottom: 1px solid gray;
-      margin-bottom:20px;
-    }
-
-    h2{
-      font-size: 1.2rem;
-      line-height: 2rem;
-      font-weight: 600;
-      margin-bottom:20px;
-    }
-
-    h3{
-      font-size: 1.1rem;
-      line-height: 2rem;
-      font-weight: 400;
-      border-bottom: 1px solid lightgray;
-      margin-bottom:20px;
-    }
-  }
-
   .blog-container{
     text-align:left;
   }
@@ -467,22 +439,55 @@ export default {
     }
   }
 
-  .share-content{
-    padding-left:40px;
-    padding-right:40px;
+  @media (max-width: 1024px) {
+    .post-content {
+      h1 {
+        font-size: 1.4rem;
+        line-height: 2rem;
+        font-weight: 700;
+        border-bottom: 1px solid gray;
+        margin-bottom: 20px;
+      }
+
+      h2 {
+        font-size: 1.2rem;
+        line-height: 2rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+      }
+
+      h3 {
+        font-size: 1.1rem;
+        line-height: 2rem;
+        font-weight: 400;
+        border-bottom: 1px solid lightgray;
+        margin-bottom: 20px;
+      }
+    }
   }
 
-  .footer-container{
-    background-color:#444;
-    padding-top:20px;
-    padding-bottom:20px;
-  }
+  @media (max-width: 535px) {
+      .post-title-mobile{
+        font-size:2em;
+      }
+    }
 
-  .is-Twitter{
-    background:#08a0e9 !important;
-  }
+    .share-content{
+      padding-left:40px;
+      padding-right:40px;
+    }
 
-  .is-Twitter:hover{
-    background:#0790d9 !important;
-  }
+    .footer-container{
+      background-color:#444;
+      padding-top:20px;
+      padding-bottom:20px;
+    }
+
+    .is-Twitter{
+      background:#08a0e9 !important;
+    }
+
+    .is-Twitter:hover{
+      background:#0790d9 !important;
+    }
 </style>
