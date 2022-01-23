@@ -2,7 +2,7 @@
   <div class="about-author-container">
     <div class="about-author">
       <div class="about-author-flexbox">
-        <div>
+        <div class="photo-author">
           <img class="img-author"
                src="../../assets/me.jpg">
         </div>
@@ -44,6 +44,9 @@ export default {
     padding-bottom: 20px;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  .photo-author{
+    min-width: 120px;
   }
 
   .img-author{
