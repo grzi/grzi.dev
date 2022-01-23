@@ -304,6 +304,28 @@ export default {
     .post-title-mobile{
       font-size:2em;
     }
+    h1 {
+      font-size: 1.4rem;
+      line-height: 3.75rem;
+      font-weight: 700;
+      border-bottom: 1px solid gray;
+      margin-bottom:20px;
+    }
+
+    h2{
+      font-size: 1.2rem;
+      line-height: 2rem;
+      font-weight: 600;
+      margin-bottom:20px;
+    }
+
+    h3{
+      font-size: 1.1rem;
+      line-height: 2rem;
+      font-weight: 400;
+      border-bottom: 1px solid lightgray;
+      margin-bottom:20px;
+    }
   }
 
   .blog-container{
