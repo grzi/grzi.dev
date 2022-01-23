@@ -202,6 +202,10 @@ export default {
     height:500px;
   }
 
+  .post-content p{
+    text-align: justify;
+  }
+
   @media (min-width: 1024px) {
     .minititle{
       float: left;
