@@ -8,7 +8,7 @@
       </div>
       <div class="card-content">
         <div class="media">
-          <div class="media-content">
+          <div class="">
             <p class="title is-4">{{article.title}}</p>
             <p class="subtitle is-6">{{article.author}}</p>
           </div>
