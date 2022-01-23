@@ -365,7 +365,6 @@ export default {
     padding-left: 40px;
     padding-right: 40px;
     font-size: 1rem;
-    text-align: justify;
 
     h1 {
       font-size: 2.5rem;
