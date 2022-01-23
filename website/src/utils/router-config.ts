@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomePageView from '../views/HomePageView.vue'
 import BlogSummaryView from '../views/BlogSummaryView.vue'
 import BlogPostView from '../views/BlogPostView.vue'
 import NotFound from '../views/NotFound.vue'
@@ -12,8 +11,8 @@ const routes = [
   { path: '*', redirect: '/404', name: 'notfound' },
   {
     path: '/',
-    name: 'home',
-    component: HomePageView
+    name: 'blog',
+    component: BlogSummaryView
   },
   {
     path: '/blog',

@@ -8,10 +8,12 @@
         </div>
         <div class="title-container">
           <div class="title-principal">
-            <div class="writtenby">Written by </div>
           </div>
           <div class="author-name">Jérémy THULLIEZ</div>
-          <div class="author-description">I'm a passionate developer.
+          <div class="author-description">
+            Tech explorer, Dad, I love everything that is relative to JAVA, Rust, JS, Cloud, Big Data... <br/><br/>
+            <i>Ex</i> Zenika, currently working as Tech Lead for <b>Benefiz</b>, a French Startup company that helps SMEs to bring benefits to their
+            employees like big companies.
           </div>
           <div class="btns-list-container">
             <SocialNetworkLink hide-title="true"/>

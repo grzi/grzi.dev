@@ -22,7 +22,12 @@
             </button>
             <button class="pagination-next" :disabled="disableNextPage()" @click="nextPage()">Next page</button>
           </nav>
+          <AboutTheAuthor/>
         </div>
+      </div>
+    </div>
+    <div class="footer-container">
+      <div class="footer-content">
       </div>
     </div>
   </div>
@@ -35,10 +40,11 @@ import SocialNetworkLink from '@/components/common/SocialNetworkLink'
 import axios from 'axios'
 import Loader from '@/components/common/Loader'
 import imagesLoaded from 'vue-images-loaded'
+import AboutTheAuthor from '@/components/common/AboutTheAuthor'
 
 export default {
   name: 'Blog',
-  components: { Loader, ArticleVignette },
+  components: { Loader, ArticleVignette, AboutTheAuthor },
   directives: {
     imagesLoaded
   },

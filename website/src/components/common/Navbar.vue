@@ -4,26 +4,10 @@
       <div class="navbar navbar-centered">
         <div class="navbar-brand">
           <router-link to="/" tabindex="0" class="navbar-item logo-title">
-            <img src="../../assets/fox-75.png" class="logo-title-img"/> <b>grzi</b>.dev<span class="logo-brackets">{ }</span>
+            <div>
+              <b>grzi</b>.dev<span class="logo-brackets">{ }</span><br/>
+            </div>
           </router-link>
-          <a tabindex="0" role="button" class='navbar-burger burger' :class="{'reversed-burger': currentRoute.name == 'blog' || toggleOff, 'is-active' : showMenu}"
-             id="navbar-burger" aria-label="menu" :aria-expanded="showMenu" @click="toggleMenu(null)">
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-          </a>
-        </div>
-        <div :class="{'is-active' : showMenu}" class="navbar-menu">
-          <div class="navbar-start">
-          </div>
-          <div class="navbar-end">
-            <router-link to="/" @click.native="toggleMenu(false)" exact tabindex="0" class="navbar-item link-nav">
-              Home
-            </router-link>
-            <router-link to="/blog" @click.native="toggleMenu(false)" tabindex="0" class="navbar-item link-nav">
-              Blog
-            </router-link>
-          </div>
         </div>
       </div>
     </nav>

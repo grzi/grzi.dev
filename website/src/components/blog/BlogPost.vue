@@ -23,6 +23,11 @@
         </div>
         <div class="post-content" v-html="article.content">
         </div>
+        <div class="post-content">
+          <router-link to="/" tabindex="0" class="pagination-previous">
+            Back to blog posts
+          </router-link>
+        </div>
         <AboutTheAuthor/>
       </div>
       <div class="footer-container">
