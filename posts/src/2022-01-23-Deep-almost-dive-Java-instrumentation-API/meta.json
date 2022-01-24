@@ -1,0 +1,14 @@
+{
+  "title": "JAVA - deep (presque) dive dans l'instrumentation API",
+  "description": "Je me suis intéressé à la notion d'agents et de ce fait à l'instrumentation API JAVA. Cet article reprend ce que j'ai appris.",
+  "uri": "deep-presque-dive-java-instrumentation-api",
+  "images": {
+    "highResolutionUrl": "https://raw.githubusercontent.com/grzi/grzi.dev.statics/main/montain.jpg",
+    "miniatureUrl": "https://raw.githubusercontent.com/grzi/grzi.dev.statics/main/montain-tiny.jpg",
+    "credits": "Photo by iuliu illes on Unsplash"
+  },
+  "tag": "Java",
+  "date": "2022-01-23",
+  "author": "Jérémy THULLIEZ",
+  "published": false
+}
