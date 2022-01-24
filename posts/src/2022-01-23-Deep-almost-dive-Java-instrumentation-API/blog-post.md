@@ -8,7 +8,6 @@ de regarder comment fonctionnaient les agents et par extensions l'<a href="https
 Basiquement, **l'instrumentation API** de **JAVA** permet d'intéragir avec le byte code de class java déjà compilées (donc des .class)
 
 Afin d'utiliser cette API prometteuse, on doit créer des **agents**, qui sont donc un point d'entré vers l'API.
-
 Je commence par créer un main très simple : 
 
 ```java
@@ -31,7 +30,7 @@ public static void premain(String args, Instrumentation instrumentation) {
 }
 ```
 
-- **Chargement dynamique :** Permet de charger l'agent, dans so propre JVM, mais en se connectant à une JVM existante, en utilisant l'**<a href="https://docs.oracle.com/en/java/javase/11/docs/api/jdk.attach/module-summary.html" target="blank">Attach API</a>**.
+- **Chargement dynamique :** Permet de charger l'agent, dans sa propre JVM, mais en se connectant à une JVM existante, en utilisant l'**<a href="https://docs.oracle.com/en/java/javase/11/docs/api/jdk.attach/module-summary.html" target="blank">Attach API</a>**.
 <br/>Pour permettre le chargement dynamique, l'agent doit avoir une méthode `agentmain` :
 
 ```java
@@ -42,7 +41,7 @@ public static void agentmain(String args, Instrumentation instrumentation) {
 
 Ce qui permet de voir que le cycle de vie d'une application avec agent est bien sûr différent d'un cycle de vie d'application classique. Cf le schéma *ci-après*.
 
-<img src="https://raw.githubusercontent.com/grzi/grzi.dev.statics/main/cycle.png" style="border:1px solid gray; width: 100%;" alt="cycle-application-java-avec-agent"/>
+<img src="https://raw.githubusercontent.com/grzi/grzi.dev.statics/main/cycle.png" style="border:1px solid gray; width: 100%;margin-left: 0px;" alt="cycle-application-java-avec-agent"/>
 
 ### Test de lancement statique
 
@@ -66,7 +65,7 @@ Résultat :
 
 Okay, jusque là rien de bien fou, mais on a quand même confirmer que le premain se lance avant le main.
 
-> **Dans le cadre d'un agent statique, est-ce que le throw d'une exception empêche le démarrage de mon application ?**
+> **Sur un chargement d'    agent statique, est-ce que le throw d'une exception empêche le démarrage de mon application ?**
 > 
 > Oui, si j'ajoute `throw new RuntimeException();` à la fin de mon `premain`, cela fait planter mon application au démarrage.
 
@@ -137,7 +136,7 @@ Le fonctionnement de base de l'exporter est en fait super simple, il va :
 - Créer un exporter qui va être ajouté à un registre d'exporteurs statiques 
 - Créer un serveur HTTP qui va exposer les datas du registry et qui se lancera en background
 
-Le code en question : 
+**Le code en question :**
 
 ```java
 public static void premain(String agentArgument, Instrumentation instrumentation) throws Exception {

@@ -319,7 +319,7 @@ export default {
     font-family: 'Arvo', sans-serif;
     font-size:5em;
     font-weight:bold;
-    -webkit-text-stroke: 1px darkgray;
+    -webkit-text-stroke: 1px black;
     -webkit-text-fill-color: white;
   }
 
@@ -475,7 +475,7 @@ export default {
     .share-content{
       padding-left:40px;
       padding-right:40px;
-    }
+    }Dans le cadre d'un
 
     .footer-container{
       background-color:#444;
