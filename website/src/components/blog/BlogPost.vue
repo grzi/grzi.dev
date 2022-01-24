@@ -475,7 +475,7 @@ export default {
     .share-content{
       padding-left:40px;
       padding-right:40px;
-    }Dans le cadre d'un
+    }
 
     .footer-container{
       background-color:#444;

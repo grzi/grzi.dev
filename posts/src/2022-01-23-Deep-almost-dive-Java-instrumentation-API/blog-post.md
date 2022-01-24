@@ -41,7 +41,7 @@ public static void agentmain(String args, Instrumentation instrumentation) {
 
 Ce qui permet de voir que le cycle de vie d'une application avec agent est bien sûr différent d'un cycle de vie d'application classique. Cf le schéma *ci-après*.
 
-<img src="https://raw.githubusercontent.com/grzi/grzi.dev.statics/main/cycle.png" style="border:1px solid gray; width: 100%;margin-left: 0px;" alt="cycle-application-java-avec-agent"/>
+<img src="https://raw.githubusercontent.com/grzi/grzi.dev.statics/main/cycle.png" style="border:1px solid gray; width: 100%;margin-left: 0px !important;" alt="cycle-application-java-avec-agent"/>
 
 ### Test de lancement statique
 
