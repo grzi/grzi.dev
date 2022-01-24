@@ -7,9 +7,8 @@ de regarder comment fonctionnaient les agents et par extensions l'<a href="https
 
 <p>Basiquement, <strong>l'instrumentation API</strong> de <strong>JAVA</strong> permet d'intéragir avec le byte code de class java déjà compilées (donc des .class)</p>
 
-<p>Afin d'utiliser cette API prometteuse, on doit créer des <strong>agents</strong>, qui sont donc un point d'entré vers l'API.</p>
-
-<p>Je commence par créer un main très simple : </p>
+<p>Afin d'utiliser cette API prometteuse, on doit créer des <strong>agents</strong>, qui sont donc un point d'entré vers l'API.
+Je commence par créer un main très simple : </p>
 
 <div class="codehilite"><pre><span></span><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;[MAIN] Bonjour depuis l&#39;application&quot;</span><span class="p">);</span>
@@ -32,7 +31,7 @@ Il peut être chargé de deux manière possibles : </p>
 </code></pre></div>
 
 <ul>
-<li><strong>Chargement dynamique :</strong> Permet de charger l'agent, dans so propre JVM, mais en se connectant à une JVM existante, en utilisant l'<strong><a href="https://docs.oracle.com/en/java/javase/11/docs/api/jdk.attach/module-summary.html" target="blank">Attach API</a></strong>.
+<li><strong>Chargement dynamique :</strong> Permet de charger l'agent, dans sa propre JVM, mais en se connectant à une JVM existante, en utilisant l'<strong><a href="https://docs.oracle.com/en/java/javase/11/docs/api/jdk.attach/module-summary.html" target="blank">Attach API</a></strong>.
 <br/>Pour permettre le chargement dynamique, l'agent doit avoir une méthode <code>agentmain</code> :</li>
 </ul>
 
@@ -43,7 +42,7 @@ Il peut être chargé de deux manière possibles : </p>
 
 <p>Ce qui permet de voir que le cycle de vie d'une application avec agent est bien sûr différent d'un cycle de vie d'application classique. Cf le schéma <em>ci-après</em>.</p>
 
-<p><img src="https://raw.githubusercontent.com/grzi/grzi.dev.statics/main/cycle.png" style="border:1px solid gray; width: 100%;" alt="cycle-application-java-avec-agent"/></p>
+<p><img src="https://raw.githubusercontent.com/grzi/grzi.dev.statics/main/cycle.png" style="border:1px solid gray; width: 100%;margin-left: 0px;" alt="cycle-application-java-avec-agent"/></p>
 
 <h3>Test de lancement statique</h3>
 
@@ -66,7 +65,7 @@ Can-Redefine-Classes: true
 <p>Okay, jusque là rien de bien fou, mais on a quand même confirmer que le premain se lance avant le main.</p>
 
 <blockquote>
-  <p><strong>Dans le cadre d'un agent statique, est-ce que le throw d'une exception empêche le démarrage de mon application ?</strong></p>
+  <p><strong>Sur un chargement d'    agent statique, est-ce que le throw d'une exception empêche le démarrage de mon application ?</strong></p>
   
   <p>Oui, si j'ajoute <code>throw new RuntimeException();</code> à la fin de mon <code>premain</code>, cela fait planter mon application au démarrage.</p>
 </blockquote>
@@ -136,7 +135,7 @@ comprendre ce qu'il y avait sous le capot. Ca tombe bien, cet agent est en fait 
 - Créer un exporter qui va être ajouté à un registre d'exporteurs statiques 
 - Créer un serveur HTTP qui va exposer les datas du registry et qui se lancera en background</p>
 
-<p>Le code en question : </p>
+<p><strong>Le code en question :</strong></p>
 
 <div class="codehilite"><pre><span></span><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">premain</span><span class="p">(</span><span class="n">String</span> <span class="n">agentArgument</span><span class="p">,</span> <span class="n">Instrumentation</span> <span class="n">instrumentation</span><span class="p">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="p">{</span>
     <span class="p">...</span>
