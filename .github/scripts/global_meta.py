@@ -10,8 +10,8 @@ def main():
     src_dir = 'posts/src'
 
     for root, dirs, files in os.walk(src_dir):
-        dirs.sort()
-        files.sort()
+        dirs.sort(reverse=True)
+        files.sort(reverse=True)
         if 'meta.json' in files:
             meta_file_path = os.path.join(root, 'meta.json')
             with open(meta_file_path, 'r') as meta_file:
