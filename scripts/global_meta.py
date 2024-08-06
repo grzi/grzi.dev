@@ -14,7 +14,7 @@ def main():
             meta_file_path = os.path.join(root, 'meta.json')
             with open(meta_file_path, 'r') as meta_file:
                 modified_meta_json = json.loads(meta_file.read())
-                modified_meta_json['path'] = meta_file_path
+                modified_meta_json['uri'] = meta_file_path.replace("posts/src/", "").replace("/meta.json", "")
                 found = False
                 for i in all_meta_data:
                     if i['uri'] == modified_meta_json['uri']:

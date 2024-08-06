@@ -1,29 +1,28 @@
 <script>
-    // let requestUri = 'https://raw.githubusercontent.com/grzi/grzi.dev/main/posts/global_meta.json'
     // 'https://raw.githubusercontent.com/grzi/grzi.dev/main/' + uri[0].path + '/blog-post.html'
     //
+    import {onMount} from "svelte";
+    import axios from "axios";
+
     let mock = [{
         date: "2024-05-11",
         title: "From design, to application",
         description: "Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet ",
-        url: "Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet ",
-    },
-        {
-            date: "2024-05-11",
-            title: "From design, to application",
-            description: "Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet ",
-            url: "Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet ",
-        }, {
-            date: "2024-05-11",
-            title: "From design, to application",
-            description: "Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet ",
-            url: "Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet ",
-        }, {
-            date: "2024-05-11",
-            title: "From design, to application,From design, to application,From design, to application,From design, to application",
-            description: "Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet ",
-            url: "Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet ",
-        }];
+        uri: "Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet ",
+        tag: "Video Game"
+    }];
+
+    async function searchLogs() {
+            return await axios
+                .get(`https://raw.githubusercontent.com/grzi/grzi.dev/main/posts/global_meta.json`)
+                .then(function ({data}) {
+                    mock = data;
+                });
+    }
+
+    onMount(async () => {
+        await searchLogs();
+    });
 </script>
 <div class="home">
     <div>
@@ -42,11 +41,11 @@
                         </div>
                         <div style="width: 100%;">
                             <div class="article-title">
-                                <a href={"/logs/" + m.url}>{m.title}</a>
+                                <a href={"/logs/" + m.uri}>{m.title}</a>
                             </div>
                             <div class="article-description">{m.description}</div>
                             <div class="article-tags">
-                                test, test, test
+                                {m.tag}
                             </div>
                         </div>
                     </div>
@@ -101,7 +100,7 @@
         color: black;
     }
 
-    .article-tags{
+    .article-tags {
         width: 100%;
         margin-top: 10px;
         font-size: 12px;
