@@ -7,3 +7,74 @@ html, body{
     font-style: normal;
     height:100%;
 }
+
+
+.log-content {
+    text-align: justify;
+}
+
+.log-content h5 {
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.log-content h4 {
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.log-content h3 {
+    font-weight: 400;
+}
+
+.log-content h2 {
+    font-weight: 400;
+}
+
+.log-content h1 {
+    font-weight: 400;
+}
+
+.log-content p {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.log-content p img{
+    width: 100%;
+}
+
+.log-content ul{
+    text-align: left;
+    width: 100%;
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
+    box-sizing: border-box;
+}
+
+.log-content .legend {
+    font-weight: 100;
+    font-size: 10px;
+    text-align: center;
+    font-style: italic;
+}
+
+.log-content img {
+    width: 100%;
+    border: 2px solid #A2A2A2;
+}
+
+.log-content{
+    margin-bottom: 25px;
+}
+
+.log-content iframe {
+    width: 100%;
+    height: 500px;
+}
+
+b, strong {
+    font-weight: 500;
+}

@@ -1,5 +1,0 @@
-Reminder to know the size to crop on the images : 
-
-normal : 2048 * 770
-minitature : 748 × 281
-

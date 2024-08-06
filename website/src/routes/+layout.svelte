@@ -12,27 +12,22 @@
   .app {
     height: 100%;
   }
+  @media (max-width: 1024px) {
+    .app {
+      width: 100%;
+      margin:auto;
+    }
+  }
 
   main {
     height: 100%;
     width: 1024px;
     margin: auto;
   }
-
-  .page-container {
-    position: relative;
-    display: flex;
-    flex: 1 1 auto;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-
-    &--main {
+  @media (max-width: 1024px) {
+    main {
       width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      background: #edeff2;
+      margin:auto;
     }
   }
 </style>

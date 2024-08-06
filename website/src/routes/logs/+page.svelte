@@ -1,23 +1,15 @@
 <script>
-    // 'https://raw.githubusercontent.com/grzi/grzi.dev/main/' + uri[0].path + '/blog-post.html'
-    //
     import {onMount} from "svelte";
     import axios from "axios";
 
-    let mock = [{
-        date: "2024-05-11",
-        title: "From design, to application",
-        description: "Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet ",
-        uri: "Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet ",
-        tag: "Video Game"
-    }];
+    let logs = [];
 
     async function searchLogs() {
-            return await axios
-                .get(`https://raw.githubusercontent.com/grzi/grzi.dev/main/posts/global_meta.json`)
-                .then(function ({data}) {
-                    mock = data;
-                });
+        return await axios
+            .get(`https://raw.githubusercontent.com/grzi/grzi.dev/main/posts/global_meta.json`)
+            .then(function ({data}) {
+                logs = data;
+            });
     }
 
     onMount(async () => {
@@ -33,7 +25,7 @@
             <a href="/">About</a>
         </div>
         <div class="articles">
-            {#each mock as m}
+            {#each logs as m}
                 <div class="article">
                     <div class="article-flex">
                         <div class="article-date">
@@ -120,5 +112,11 @@
         text-align: left;
         font-size: 16px;
         min-width: 110px;
+    }
+    @media (max-width: 1024px) {
+        .home {
+            width: 90%;
+            margin:auto;
+        }
     }
 </style>

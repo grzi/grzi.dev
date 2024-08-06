@@ -43,14 +43,14 @@ jobs:
                 fi
             else
               echo "Directory $i has been updated. Creating files..."
-              python3 scripts/markdown.py $i/blog-post.md > $i/blog-post.html
+              python3 .github/scripts/markdown.py $i/blog-post.md > $i/blog-post.html
               git add $i/blog-post.html
             fi
           done
           
           echo "Html conversion completed"
 
-          global_meta_updated=`python3 scripts/global_meta.py `
+          global_meta_updated=`python3 .github/scripts/global_meta.py `
           echo $global_meta_updated
           echo $global_meta_updated>posts/global_meta.json
           git add posts/global_meta.json

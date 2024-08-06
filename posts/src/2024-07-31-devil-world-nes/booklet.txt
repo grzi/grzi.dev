@@ -1,0 +1,200 @@
+Devil World Instuction Booklet converted (only the english part) by Moua'dib(mouadib@bigfoot.com)
+state of NES: http://fly.to/stateones
+
+----------------------Front Page-----------------------------------
+
+DEVIL WORLD (tm)
+
+
+INSTRUCTION BOOKLET [pic]
+
+
+
+----------------------Page 1-----------------------------------
+
+English   page 2-9
+Svenska   sida 10-17
+Suomi     sivu 18-25
+
+* This game pak can only be used with the NES (control deck) -
+European Version (NES-PAL-001)
+
+* Dena spelkassett kan endast användas till Europa versionen av 
+Nintendo videospel (NES-PAL-001)
+
+* Tämä Game Pak laitetta voidaan käyttää ainoastaan NES-Euroopaa
+varten olevan mallin kanssa (säätödekki)
+
+----------------------Page 2-----------------------------------
+
+Thank you for selecting then Nintendo(r) Entertainment System(tm) Devil 
+World(tm) Pak.
+ __________________________________________________________________________
+| OBJECT OF THE GAME/GAME DESCRIPTION                                      |
+| Lost in the maze of Devil World, Tamagon the Dragon has a steer clear of |
+| the Devil, his nasty Co-Devils, and his treacherous helpers, Medaman the |
+| Fried-Eggman and Bon-Bon, and ward off theit atacksby breathing fire.    |
+| After each round, the maze scrolls up, down, right, or left. The Devil   |
+| decides the direction and points with his finger.                        |
+| As you guide Tamagon through the maze, you also have to avoid being      |
+| sandwiched between the walls.                                            |
+ --------------------------------------------------------------------------
+Please read this instruction booklet to ensure proper handling of your new game,
+and then save the booklet for future reference.
+
+1. PRECAUTIONS
+ 1) This is a high precision game. It should not be stored in places that are very hot
+    or cold. Never hit or drop it. Do not take it apart.
+ 2) Avoid touching the connectors, do not get them wet or dirty. Doing so may
+    damage the game.
+ 3) Do not clean with benzene, paint thinner, alcohol or other such solvents.
+Note: In the inerest of product improvment, Nintendo Entertainment System specifications
+      and design are subject to change without prior notice.
+
+
+----------------------Page 3-----------------------------------
+
+2. NAMES OF CONTROLLER PARTS AND OPERATING INSTRUCTIONS
+
+Controller 1/Controller 2
+
+[pic of the NES controller]   Controller 1 - For 1 player game
+[pic of the NES controller]   Controller 2 - For second player in 2 player game
+[pic of the NES controller] 
+[pic of the NES controller] 
+
++ Controll pad Used to move Tamagon
+[pic of control pad]          * Press the controll pad in the direction
+[pic of control pad]            you want to start moving. Tamagon
+[pic of control pad]            will follow the maze until he runs into
+[pic of control pad]            a wall or until you press the controller 
+[pic of control pad]            pad again. To make Tamagon turn
+                                smoothly, you have to decide the
+                                direction before he reaches the wall,
+                                and press the controller pad.
+
+----------------------Page 4-----------------------------------
+
+B button (or A button)
+Used to send a burst of fire from Tamagon's mounth.                [pic devil world title screen]
+Tamagon can breath fire at his enemies when he is
+holding either the cross + or the bible [pic bible].
+* Tamagon will stop in his tracks while breating fire
+  if you take your finger off the + controller pad.
+* Tamagon can't breath fire twice in a row.
+SELECT BUTTON
+Use this to move the selector mark (.) on the title screen to the game
+you wish to play.
+(.) Once the game is started, the SELECT button is not used again.
+START BUTTON
+Press this button to start the game.
+Pause: If you wish to interrupt play on the middle of a game, press the START
+       button. The pause tone will sound and the game will stop. Press the
+       START button again when you wish to countinue the game. The game will
+       Countinue from where it left off.
+*The TOP SCORE dissapers once the reset switch is pressed or thepower switch
+ is turned off.
+
+----------------------Page 5-----------------------------------
+
+3. HOW TO PLAY
+The characters                     (.) Use the A or B button to breathe fire when
+[pic]                                  holding the bible [pic bible] or the cross [pic cross].
+Green (Controller 1)
+Red   (Controller 2)                                  [pic]
+ _______________________________________________________________
+|[pic]Devil                     |     [pic] Co-devil            |
+|The king of the Devil          |     Always wandering a-       |
+|World. He decides the          |     round. When he's attack-  |
+|scrolling direction by         |     ed by fire, he changes    |
+|Pointing his finger            |     direction.                |
+|---------------------------------------------------------------|
+|[pic] Medaan the               |     [pic] Bon-Bon             |
+|fried-eggman                   |     once this rascal is on    |
+|Scorch him and he turns        |     your trail he doesn't give|
+|into a fried egg, which        |     up! He'll bounch back to  |
+|Tamagon gobbles up. But        |     life even after you fry   |
+|even after being gobbled,      |     him. He appers in the     | 
+|Medaman has the power          |     7th round.                |
+|to come back to life.          |                               |
+ ---------------------------------------------------------------
+
+----------------------Page 6-----------------------------------
+
+Co.Devil, Medaman and Bon-Bon can alsopass through maze walls. Once they
+do, though, they divide into two "ghost" characters that Tamagon can pass
+through.
+In case they:
+(.) Can't attack Tamagon even when they run into him.
+(.) Aren't affected by Tamagon´s fire balls.
+[pics]
+Basic play
+(.) When the game starts, an egg appers near the middle of the screen.
+    *The egg isn't affected by enemy attacks or by the maze walls closing in.
+(.) As soon as you press the [pic] control pad, Tamagon emegres from the egg and
+    moves in the direction you've selected.
+(.) Use A and B buttons skillfully to breathe fire on the enemies.
+(.) Three scenes make one round.
+
+
+----------------------Page 7-----------------------------------
+
+[pics]
+Rules and suggestions
+Round 1 Scene 1
+        (.) The boa-boa dots that lie along the paths are th source of
+            magic power in the devil world.
+        (.) You have to pass over the dots with a cross [pic] to get rid of
+            them and destroy the magic power.
+            * The cross [pic] starts to flash when it's power weakens, and
+              evntualy disappers.
+        (.) During the game Tamagon´s favorite treat, and ice-cream cone,
+            appers twice. Raise your score by eating them, (they only
+            apper, however, up until the third round.)
+            with bibles.
+
+----------------------Page 8-----------------------------------
+
+Scene 2
+(.) The 4 magically weakened Devil caves have to be sealed up
+    with bibles.
+
+(.) Collect the four bibles on the screen and bring them to the 
+    Devil hole at the center.
+(.) The devil escapes to the next round.
+Bonus scene
+(.) There are six bonusboxes [pic], but only one of them con-
+    tains an egg.
+(.) If you can find the egg before the time runs out, an extra
+    Tamagon joins the game.
+(.) Stepping on a arrowed [pic] along the oath scrolls the 
+    screen in that diretion. Use it yo your advantage.
+    * Misstakes made in this scene won't have any weakning
+      affect on Tamagon.
+
+[pic]Continue to the next round. You can play up to 16 rounds (46 scenes) and they
+     get more difficult as you go along. 
+
+----------------------Page 9-----------------------------------
+Beware!
+(.) An error woth the result when you bump into an enemy or become sandwitched
+    between the walls
+(.) After an error, Tamagon will reapper in the middle of the screen.
+(.) [pic] = indicates the number of Tamagons left (appers under the score display)
+
+Scoring
+Magic dot .................... 100 points   Bible ..................... 1000 points
+Fried egg .................... 500 points   Bible seal ................ 1000 points
+Ice cream cone ............... 800 points   Bonus box ..........................???
+
+Extra points
+If the egg [pic] hatches the bonus box [pic] during the bonus scene, you get
+an extra Tamagon.
+(.) You can sometimes go on to scene 2 even when there are 1 - 3 dots left in
+    scene 1 (the dot scene)
+(.) After many scenes Tamagon tends to stick to the walls, unable to walk. Help
+    him by bringing gim to the center of the path.
+(.) Some characters may suddenly disapper from the screen, but they'll soon
+    reapper. Just continue playing.    
+
+---------------------- EOF ------------------------------------
