@@ -29,7 +29,7 @@ def main():
                         all_meta_data.append(modified_meta_json)
                     else:
                         print(f"Warning: {meta_file_path} is empty or not a dictionary.")
-
-    print(json.dumps(all_meta_data, sort_keys=True, indent=4, ensure_ascii=False))
+    sorted_meta_data = sorted(all_meta_data, key=lambda x: x['date'], reverse=True)
+    print(json.dumps(sorted_meta_data, sort_keys=True, indent=4, ensure_ascii=False))
 
 main()

@@ -17,6 +17,7 @@ La maison de Krusty est divisé en 4 sections, chacune pouvant avoir jusqu'à 14
 ### Note
 
 **4/10**.
+
 Musiques et niveaux répétitifs.
 Lassitude lorsqu'on atteint le milieu de la seconde zone.
 Difficulté des ennemis (qui nous tirent dessûs) trop présente et plus frustrante qu'autre chose
